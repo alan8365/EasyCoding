@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link rel="stylesheet" href="{% static "boot/bootstrap-4.0.0.css" %}">
+    <link rel="stylesheet" href="{% static "css/course/play.css" %}">
+    <link rel="stylesheet" href="{% static "css/course/course.css" %}">
+
+    <script src="{% static "boot/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "boot/bootstrap.bundle.js" %}"></script>
+    <script src="{% static "js/jquery-ui-1.12.1/jquery-ui.js" %}"></script>
+
+    <script>
+        $(function () {
+            $("#sortable").sortable({
+                placeholder: "ui-state-highlight"
+            });
+            $("#sortable").disableSelection();
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container-fiuld">
+
+
+    <div class="row" style="background-color: gray">
+        <div class="d-none d-md-block d-xl-block col-12 col-md-4 col-lg-3 bd-sidebar">
+            <nav class="content collapse bd-links float" id="bd-docs-nav">
+                {% for course in all_course %}
+                    <div class="bd-toc-item">
+                        <a class="bd-toc-link" data-toggle="collapse" role="button"
+                           data-target="#collapse-{{ course.lesson.number }}"
+                           aria-expanded="false" aria-controls="collapse-{{ course.lesson.number }}" href="#">
+                            {{ course.lesson }}
+                        </a>
+
+                        <div id="collapse-{{ course.lesson.number }}" class="collapse">
+                            <ul class="nav bd-sidenav" aria-labelledby="headingOne">
+                                {% for sub_course in course.data %}
+                                    <li>
+                                        <a href="{% url "course:course_add" sub_course.lesson.number sub_course.chapter %}">
+                                            {{ sub_course }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </nav>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9 cbd">
+            <ul id="sortable">
+                {% for content in all_content %}
+                    <li class="ui-state-default">
+                        <div class="dropdown show"
+                             data-type="{% if content.isTitle %}title{% elif content.isSubTitle %}subtitle{% elif content.isText %}text{% elif content.isCode %}code{% elif content.isImage %}image{% elif content.istable %}table{% endif %}">
+
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                {% if content.isTitle %}
+                                    title
+                                {% elif content.isSubTitle %}
+                                    subtitle
+                                {% elif content.isText %}
+                                    text
+                                {% elif content.isCode %}
+                                    code
+                                {% elif content.isImage %}
+                                    image
+                                {% elif content.isTable %}
+                                    table
+                                {% endif %}</a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="##">title</a>
+                                <a class="dropdown-item" href="##">subtitle</a>
+                                <a class="dropdown-item" href="##">text</a>
+                                <a class="dropdown-item" href="##">code</a>
+                                <a class="dropdown-item" href="##">image</a>
+                                <a class="dropdown-item" href="##">table</a>
+                            </div>
+
+                            <button type="button" class="btn btn-danger remove" style="position: absolute;right:0;">刪除
+                            </button>
+                        </div>
+
+                        <div class="content">
+                            <textarea name="content-1" id="content-1">{{ content.content|safe }}</textarea>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="d-none d-md-block d-xl-block col-12 col-md-4 col-lg-3"></div>
+
+        <div class="col-12 col-md-8 col-lg-9 cbd">
+
+            <div class="row" style="padding: 15px">
+                <div class="col">
+                    <button id="add" type="button" class="btn btn-dark">新增</button>
+                </div>
+                <div class="col">
+                    <button id="submit" type="button" class="btn btn-dark">送出</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+{% csrf_token %}
+<script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+<script>
+    $("#add").click(function () {
+
+        $("#sortable").append(`<li class="ui-state-default">
+                        <div class="dropdown show" data-type="text">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">text</a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="##">title</a>
+                                <a class="dropdown-item" href="##">subtitle</a>
+                                <a class="dropdown-item" href="##">text</a>
+                                <a class="dropdown-item" href="##">code</a>
+                                <a class="dropdown-item" href="##">image</a>
+                                <a class="dropdown-item" href="##">table</a>
+                            </div>
+
+                            <button type="button" class="btn btn-danger remove" style="position: absolute;right:0;">刪除</button>
+                        </div>
+
+                        <div class="content">
+                            <textarea name="content-1" id="content-1"></textarea>
+                        </div>
+                    </li>`);
+
+        $(".dropdown-item").click(function () {
+            let a = $(this).parent().parent();
+
+            a.attr("data-type", $(this).html());
+            a.children("a").html($(this).html());
+        });
+
+        $(".remove").click(function () {
+            let a = $(this).parent().parent();
+
+            a.remove();
+        });
+
+    });
+
+    $(".remove").click(function () {
+        let a = $(this).parent().parent();
+
+        a.remove();
+    });
+
+    $("#submit").click(function () {
+        let a = $("#sortable > li");
+
+        var arr = [];
+        var number = a.length;
+
+        for (let i = 0; i < a.length; i++) {
+            let b = $(a[i]);
+
+            let type = b.children(".dropdown").attr("data-type");
+            let value = b.children(".content").children("textarea").val();
+
+            arr.push([i, type, value])
+        }
+
+        console.log(arr);
+
+        $.ajax({
+            type: "POST",
+            data: {data: arr, number: number},
+            url: "{% url 'course:course_add' lesson chapter %}",
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+
+                alert('bububu');
+
+            },
+            error: function () {
+                alert(888);
+            }
+        });
+    });
+
+    $(".dropdown-item").click(function () {
+        let a = $(this).parent().parent();
+
+        a.attr("data-type", $(this).html());
+        a.children("a").html($(this).html());
+
+        if ($(this).html() == "image") {
+
+        }
+    });
+
+</script>
+</body>
+
+</html>

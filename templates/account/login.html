@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static "boot/bootstrap-4.0.0.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static "fonts/iconic/css/material-design-iconic-font.css" %}">
+    <link rel="stylesheet" href="{% static "css/account/signup.css" %}">
+
+    <title>登入</title>
+</head>
+
+<body>
+
+<div class="row" style="margin: 15px;">
+    <div class="col align-self-center">
+        <h1 align="center">登入</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-4 sign-up">
+
+
+            <div class="row" style="position: relative;">
+                <div class="col-12">
+                    <form class="validate-form" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-input validate-input {% if error %}
+                            alert-validate
+                            {% endif %}"
+                             data-validate="{{ error }}">
+                            <label for="username">帳號</label>
+
+                            <input class="user-input" type="text" name="username">
+
+                            <span class="focus-input"></span>
+                        </div>
+
+                        <div class="form-input validate-input" data-validate="密碼不能空">
+                            <label for="password">密碼</label>
+
+                            <input class="user-input" type="password" name="password">
+
+                            <span class="focus-input"></span>
+                        </div>
+
+                        <div class="row no-gutters" style="height: 48px">
+                            <div class="col-12">
+                                <input type="submit" name="submit" value="登入" class="btn-signup">
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center" style="position:relative;margin-top: 20px; ">
+                            <p>沒有帳號? 點此<a href="{% url "account:register" %}" target="_parent"
+                                          style="text-decoration:none;">註冊</a></p>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static "boot/jquery-3.2.1.min.js" %}"></script>
+<script src="{% static "js/account/login.js" %}"></script>
+
+</body>
+
+</html>

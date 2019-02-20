@@ -1,0 +1,74 @@
+.limit {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    z-index: 1001;
+}
+
+/*
+.sub-tittle {
+    position: fixed;
+
+    bottom: 20px;
+    left: 5%;
+
+    height: 2em;
+    width: 90%;
+
+    background-color: rgb(214, 56, 56);
+    color: white;
+
+    text-align: center;
+
+    z-index: 1003;
+
+    font-size: 20px;
+
+    border-radius: 25px;
+}
+
+.sub-tittle p {
+    height: 100%;
+
+    margin: 0;
+
+    line-height: 2em;
+
+    white-space: normal;
+}
+*/
+
+#sub-tittle {
+    bottom: 20px;
+
+    margin: 0 15px;
+    padding: 0.5rem 1rem;
+
+    border-radius: 20px;
+
+    background-color: rgb(214, 56, 56) !important;
+    color: white;
+
+    font-size: 1rem;
+}
+
+#sub-tittle > button {
+    background: none;
+    border: none;
+
+    color: white;
+}
+
+#skip {
+    position: fixed;
+
+    bottom: calc(20px + 2em);
+    left: 5%;
+
+    font-size: 20px;
+}

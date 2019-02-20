@@ -1,0 +1,13 @@
+@import url("global.css") print;
+
+#course-menu {
+    padding: 5vh 0;
+
+    color: white;
+
+    border-right: 1px solid rgba(0, 0, 0, .1);
+}
+
+.conwrapper {
+    padding-top: 5vh;
+}

@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% load static %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/course/caw.css" %}">
+    <link rel="stylesheet" href="{% static "css/wiki/wiki.css" %}">
+    <link rel="stylesheet" href="{% static "Scrollbar/jquery.mCustomScrollbar.css" %}">
+{% endblock %}
+
+{% block jslink %}
+    {#<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>#}
+    <script src="{% static "js/jquery-3.2.1.min.js" %}">
+    <script src="{% static "js/jquery-ui.min.js" %}">
+    <script src="{% static "Scrollbar/jquery.mousewheel.min.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mCustomScrollbar.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <!--contain start-->
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-12 col-md-4 col-lg-3 bd-sidebar">
+                <form class="bd-search d-flex">
+                    <!--search-->
+                    <span class="algolia-autocomplete">
+                        <input type="search" class="form-control ds-input" id="search-input" placeholder="搜尋..."
+                               autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list"
+                               aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto"
+                               style="position: relative; vertical-align: top;">
+                        <pre aria-hidden="true" class="ds-pre"></pre>
+                        <span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0">
+                        <div class="ds-dataset-1"></div>
+                        </span>
+                    </span>
+                    <button class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" type="button"
+                            data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav"
+                            aria-expanded="false" aria-label="Toggle docs navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"
+                             focusable="false">
+                            <title>Menu</title>
+                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10"
+                                  d="M4 7h22M4 15h22M4 23h22"></path>
+                        </svg>
+                    </button>
+                </form>
+
+                <div id="search-result" style="display: none;">
+                </div>
+
+                <nav class="collapse bd-links float" id="bd-docs-nav">
+                    {% for wiki in all_wiki %}
+                        <a class="bd-toc-link" data-toggle="collapse" role="button"
+                           data-target="#collapse{{ wiki.lesson }}"
+                           aria-expanded="false" aria-controls="collapse{{ wiki.lesson }}" href="#">
+                            {{ wiki.header }}
+                        </a>
+
+                        <div id="collapse{{ wiki.lesson }}" class="collapse">
+                            <ul class="nav bd-sidenav" aria-labelledby="headingOne">
+                                {% for data in wiki.data %}
+                                    <li>
+                                        <a href="{% url "wiki:wiki" data.lesson data.chapter %}">
+                                            {{ data }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </nav>
+
+            </div>
+
+            <div class="col-12 col-md-8 col-lg-9 cbd">
+                <div class="float">
+                    <div class="bigtit">
+                        <h1>{{ title }}</h1>
+                    </div>
+
+                    <hr>
+
+                    {% for content in all_content %}
+                        {% if content.isTitle %}
+                            <div class="smtit">
+                                <h6>{{ content.content }}</h6>
+                            </div>
+                        {% elif content.isText %}
+                            <p class="word">
+                                {{ content.content }}
+                            </p>
+                        {% elif content.isCode %}
+                            <pre class="part">{{ content.content|safe }}</pre>
+                        {% elif content.isTable %}
+                            <table class="tab">
+                                {{ content.content|safe }}
+                            </table>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--contain end-->
+{% endblock %}
+
+<!--
+<script src="js/menu.js">
+</script>
+-->
+
+{% block tailjslink %}
+    <script type='text/javascript'>
+        (function ($) {
+            $(window).load(function () {
+                $("#bd-sidebar").mCustomScrollbar();
+                $(".content").mCustomScrollbar();
+                $("#search-result").mCustomScrollbar();
+            });
+        })(jQuery);
+    </script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            }
+        });
+    </script>
+
+    <script>
+        let search_input = $("#search-input");
+
+        search_input.submit(function (e) {
+
+        });
+
+        search_input.keypress(function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+
+                let search_result = $("#search-result");
+                search_result.html("");
+
+                let search = $(this).val();
+
+                $.ajax({
+                    type: "POST",
+                    data: {search: search},
+                    url: "{% url 'home' %}",
+                    cache: false,
+                    dataType: "json",
+                    success: function (result) {
+
+
+                        let title = result["search_title_result"];
+                        let content = result["search_content_result"];
+
+                        if (title.length === 0 && content.length === 0) {
+
+                            let none = $("<div>");
+                            let p = $("<p>");
+
+                            none.addClass("none");
+                            p.html("什麼都沒搜到 <br>再搜一次吧!(ゝ∀･)");
+                            p.appendTo(none);
+                            none.appendTo(search_result);
+
+                        } else {
+
+                            title.forEach(function (e) {
+
+                                let tag_div = $("<div>");
+
+                                tag_div.addClass("search-header");
+
+                                let tag_a = $("<a>");
+                                let link = "{% url "wiki:wiki" 111 222 %}".replace("111", e[0]).replace("222", e[1]);
+
+                                tag_a.attr("href", link);
+                                tag_a.html(e[2]);
+
+                                tag_a.appendTo(tag_div);
+                                tag_div.appendTo(search_result);
+                            });
+
+                            content.forEach(function (e) {
+                                let tag_div = $("<div>");
+
+                                tag_div.addClass("search-header");
+
+                                let tag_h6 = $("<h6>");
+                                let tag_a = $("<a>");
+                                let link = "{% url "wiki:wiki" 111 222 %}".replace("111", e[0]).replace("222", e[1]);
+
+                                tag_a.attr("href", link);
+                                tag_a.html(e[2]);
+
+                                tag_a.appendTo(tag_h6);
+                                tag_h6.appendTo(tag_div);
+                                tag_div.appendTo(search_result);
+
+                                let tag_caption = $("<p>");
+
+                                tag_caption.addClass("search-content");
+                                tag_caption.html(e[3]);
+                                tag_caption.appendTo(search_result);
+
+                            });
+                        }
+
+                        search_result.css("display", "block");
+                    },
+                    error: function () {
+                        alert(888);
+                    }
+                });
+            }
+        });
+
+        /*
+        <div class="search-header">
+            <h6><a href="#">特性</a></h6>
+        </div>
+        <p class="search-content">物件導向程式設計: 它將物件視為程式中的基本單元，模組、函式、變數等都是物件，並支援繼承、多重繼承、覆寫等功能，使得軟體較容易維護。</p>
+        */
+    </script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "home.html" %}
+
+{% block taildiv %}
+    {% include "tutorial/tutorial.html" %}
+{% endblock %}
+
+{% block tailjs %}
+    <script>
+        let sub_tittle_content = $("#sub-tittle > span");
+        let next_step = $("#next-step");
+
+        let step = 0;
+
+        let script = [
+            "歡迎來到easycoding，請點擊下一步按鈕開始新手教學",
+            "你現在在的地方是你的home，你可以從這裡開始學習課程、練習作業、查看個人檔案和去文件找資料",
+            "第一步我們先來看看你學習課程的地方，請點擊課程內的「0.新手教學」",
+        ];
+
+        sub_tittle_content.text(script[step]);
+
+        $("#menu a").click(function (e) {
+            $(this).attr('href', "javascript:void(0)");
+            alert("教學完再點啦");
+        });
+
+        $("#course-wrapper").css("z-index", 1002);
+
+        next_step.click(function (e) {
+            if (step < script.length) {
+                step += 1;
+            }
+
+            sub_tittle_content.text(script[step]);
+
+            if(step === 2){
+                next_step.hide();
+            }else{
+                next_step.show();
+            }
+        });
+
+        $(".todolist > ul > li:first-child > a").click(function () {
+            sub_tittle_content.text("接著請點擊課程目錄中的『0-1 安裝Python的IDE』進入課程頁面");
+        });
+    </script>
+{% endblock %}
+

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+    <!--.css-->
+    <link rel="stylesheet" href="{% static "boot/bootstrap-4.0.0.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/menu.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/tutorial.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    {% block csslink %}
+    {% endblock %}
+
+    <!--.js-->
+    <script src="{% static "boot/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "boot/bootstrap-4.0.0.js" %}"></script>
+    {% block jslink %}
+    {% endblock %}
+</head>
+
+<body style="background-color: #eef5f9">
+<!--menu-->
+<nav id="menu" class="navbar navbar-expand-md sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url "home" %}">
+            <img src="{% static "img/bubu.png" %}" width="170px">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#meun-collapse"
+                style="margin-right: 15px">
+            <div class="menu-toggle">
+                <span class="menu-toggle-grippy"></span>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="meun-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "account:profile" %}">個人檔案</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "course:course_for_process" %}">課程</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "assessment:assessment_for_precess" %}">作業</a>
+                </li>
+
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url "account:contact" %}">聯繫</a>#}
+{#                </li>#}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "account:logout" %}">登出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block tutorial %}
+{% endblock %}
+
+<!--contain start-->
+{% block content %}
+{% endblock %}
+<!--contain end-->
+
+<!--footer-->
+<footer class="container-fluid text-cener">
+    <div class="row">
+        <div class="col-lg-3 col-sm-2 col-1"></div>
+
+        <div class="col-lg-4 col-sm-4 col-5">
+            <h3>關於我們</h3><br>
+            <h4>國立台中科技大學 資訊管理科</h4>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 col-5">
+            <img src="{% static "img/p.png" %}" class="icon" width=100>
+        </div>
+    </div>
+</footer>
+
+{#<script src="{% static 'js/menu.js' %}"></script>#}
+{% block tailjslink %}
+{% endblock %}
+
+{% block tutorialjs %}
+
+{% endblock %}
+
+</body>
+
+</html>

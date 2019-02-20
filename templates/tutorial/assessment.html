@@ -1,0 +1,197 @@
+{% extends "assessment/assessment.html" %}
+
+{% load assessment_extras %}
+
+{% block tutorial %}
+    {% include "tutorial/tutorial.html" %}
+{% endblock %}
+
+{% block tutorialjs %}
+    <script>
+        let sub_tittle_content = $("#sub-tittle > span");
+
+        let next_step = $("#next-step");
+
+        let step = 0;
+        let script = [
+            "右邊這個區塊是給你輸入程式碼的地方",
+            "左邊這個區塊是顯示題目與輸出結果的地方",
+            "現在你可以開始按照題目需求開始輸入程式了，輸入好後就可以按下執行來執行程式囉",
+        ];
+
+        $("#menu a").click(function () {
+            $(this).attr('href', "javascript:void(0)");
+            alert("教學完再點啦");
+        });
+
+        sub_tittle_content.text(script[step]);
+        $("#code-wrapper").css("z-index", 1002);
+
+        next_step.click(function (e) {
+            if (step < script.length) {
+                step += 1;
+            }
+
+            sub_tittle_content.text(script[step]);
+
+            if (step === 1) {
+                $("#assessment-wrapper").css("z-index", 1002);
+                $("#code-wrapper").css("z-index", 1000);
+            } else if (step === 2) {
+                next_step.hide();
+                $("#code-wrapper").css("z-index", 1002);
+            } else {
+                next_step.show();
+            }
+        });
+
+        $("#a-vote").attr("href", "{% url "tutorial:vote" 12 "date_first" 1 %}")
+    </script>
+{% endblock %}
+
+{% block tailjslink %}
+    {% csrf_token %}
+    <script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+
+    <script>
+        ace.require("ace/ext/language_tools");
+        //建立輸入框
+        let editor = ace.edit("editor");
+        //輸入代碼提示
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setFontSize(20);
+        //選擇語言
+        editor.getSession().setMode("ace/mode/python");
+        //设置初始内容
+        editor.setValue(`{{ code|backslash|safe }}`);
+
+        editor.setTheme("ace/theme/ihatewhite");
+
+        editor.on('change', function () {
+            $("#btn-sendout").hide();
+
+            $("#btn-vote").hide();
+        });
+
+        {#execute#}
+        var a;
+        $("#btn-run").click(function () {
+            $("#tab > ul > li:nth-child(2) > a")[0].click();
+
+            let code = editor.getValue();
+
+            $.ajax({
+                type: "POST",
+                data: {code: code},
+                url: "{% url 'assessment:assessment' pk %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+
+                    if (result.is_answer_right) {
+                        $("#btn-sendout").show();
+
+                        sub_tittle_content.text("答對後請按下送出按鍵把程式碼正式繳交");
+                    } else {
+                        $("#btn-sendout").hide();
+
+                        $("#btn-vote").hide();
+                    }
+
+                    let exe_output = $("#exe-output");
+                    let output = result.output;
+
+                    exe_output.html("");
+                    a = output;
+
+                    if (typeof(output) === "string") {
+                        exe_output.html(output);
+                    } else {
+                        output.forEach(function (e) {
+                            let wrapper = $("<div>");
+
+                            if (e["is_answer_right"]) {
+                                wrapper.addClass("correct");
+
+                                let answer_right = $("<green>").text("正確");
+                                let temp = $("<div>");
+
+                                temp.append(answer_right);
+                                wrapper.append(temp);
+                            } else {
+                                wrapper.addClass("wrong");
+
+                                let answer_right = $("<red>").text("錯誤");
+                                let temp = $("<div>");
+
+                                temp.append(answer_right);
+                                wrapper.append(temp);
+                            }
+
+                            let temp = $("<div>").text("輸入:");
+                            let input = $("<div>").text(e["input"]);
+
+                            temp.append(input);
+                            wrapper.append(temp);
+
+                            temp = $("<div>").text("輸出:");
+                            let output = $("<pre>").html(e["output"]);
+
+                            temp.append(output);
+                            wrapper.append(temp);
+
+                            if (!e["is_answer_right"]) {
+                                let realans = $("<div>").addClass("realans");
+                                temp = $("<div>");
+                                let green = $("<green>").text("正確輸出:");
+                                let answer = $("<pre>").html(e["answer"]);
+
+                                realans.append(temp);
+                                temp.append(green);
+                                green.append(answer);
+                                wrapper.append(realans);
+                            }
+
+                            wrapper.appendTo(exe_output);
+                        });
+
+                    }
+
+                },
+                error: function () {
+                    alert(888);
+                }
+            });
+        });
+
+        {#submit#}
+        $("#btn-sendout").click(function () {
+            let code = editor.getValue();
+
+            $.ajax({
+                type: "POST",
+                data: {code: code, submit: "submit"},
+                url: "{% url 'assessment:assessment' pk %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+                    $("#btn-vote").show();
+
+                    alert("成功送出");
+
+                    sub_tittle_content.text("成功送出後就可以點擊前往投票頁面觀看其他人的程式碼");
+
+                    window.location.href = "{% url "tutorial:vote" pk "date_first" 1 %}"
+                },
+                error: function () {
+                    console.log(888);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

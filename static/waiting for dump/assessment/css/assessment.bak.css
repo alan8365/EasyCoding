@@ -1,0 +1,94 @@
+pre {
+    overflow-x: hidden;
+
+    color: var(--font);
+    font-size: 16px;
+}
+
+.conwrapper {
+    position: relative;
+
+    height: 100vh;
+
+    padding-top: 2em;
+}
+
+#static-wrapper {
+    height: 100%;
+}
+
+#static-tag {
+    margin-top: 15px;
+
+    height: 30px;
+}
+
+#static-tag > div {
+    background-color: var(--height);
+
+    text-align: center;
+
+    line-height: 30px;
+}
+
+.choice-tag {
+    background-color: var(--theme) !important;
+}
+
+#static-content {
+    padding: 1em;
+
+    height: 80%;
+
+    background-color: var(--theme);
+}
+
+.title {
+    height: 30px;
+
+    line-height: 30px;
+}
+
+.code {
+    position: relative;
+
+    margin-top: 15px;
+
+    padding-left: 15px;
+
+    height: 80%;
+}
+
+#editor {
+    position: relative;
+
+    font-size: 16px;
+
+    height: 100%;
+    width: 100%;
+}
+
+.code-submit {
+
+    font-size: 14px;
+
+    float: right;
+
+    color: var(--font);
+}
+
+.no-vis {
+    display: none;
+}
+
+#output-tag-point{
+    overflow-y: auto;
+}
+
+red{
+    color:red;
+}
+
+green{
+    color: greenyellow;
+}

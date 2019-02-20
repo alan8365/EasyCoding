@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ course_name }}
+{% endblock %}
+
+{% load static %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/course/caw.css" %}">
+    <link rel="stylesheet" href="{% static "css/course/course.css" %}">
+    <link rel="stylesheet" href="{% static "css/course/style.css" %}">
+    <link rel="stylesheet" href="{% static "Scrollbar/jquery.mCustomScrollbar.css" %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+{% endblock %}
+
+{% block jslink %}
+    <script src="{% static "Scrollbar/jquery.mousewheel.min.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mCustomScrollbar.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <!--contain start-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="d-none d-md-block d-xl-block col-12 col-md-4 col-lg-3 bd-sidebar">
+                <nav class="content collapse bd-links float" id="bd-docs-nav">
+                    {% for course_menu in all_course_menu %}
+                        <div class="bd-toc-item active">
+                            <a class="bd-toc-link" data-toggle="collapse" role="button"
+                               data-target="#collapse{{ course_menu.lesson.number }}"
+                               aria-expanded="false" aria-controls="collapseOne" href="#">
+                                {{ course_menu.lesson }}
+
+                                {% if course_menu.is_lock %}
+                                    <div class="lock-background text-center">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                {% endif %}
+                            </a>
+
+                            <div id="collapse{{ course_menu.lesson.number }}" class="collapse">
+                                <ul class="nav bd-sidenav" aria-labelledby="headingOne">
+                                    {% for course in course_menu.courses %}
+                                        <li>
+                                            {% if course.is_lock %}
+                                                <a>
+                                                    {{ course }}
+                                                    <div class="lock-background text-center">
+                                                        <i class="fas fa-lock"></i>
+                                                    </div>
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url "course:course" course.lesson.number course.chapter %}">
+                                                    {{ course }}
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </nav>
+            </div>
+
+            <div id="course-wrapper" class="col-12 col-md-8 col-lg-9 cbd">
+                <div class="float">
+
+                    <h2>{{ course_name }}</h2>
+
+                    <hr>
+
+                    {% for content in all_content %}
+                        {% if content.isTitle %}
+                            <h5>
+                                {{ content.content }}
+                            </h5>
+                        {% elif content.isSubTitle %}
+                            <h6>
+                                {{ content.content }}
+                            </h6>
+                        {% elif content.isText %}
+                            <p class="word">{{ content.content }}</p>
+                        {% elif content.isCode %}
+                            <pre class="part">{{ content.content|safe }}</pre>
+                        {% elif content.isImage %}
+                            <p class="img"><img src="{% static content.content %}"></p>
+                        {% elif content.isLink %}
+                            <p class="wikilink">{{ content.content|safe }}</p>
+                        {% elif content.isTable %}
+                            <table class="tab">
+                                {{ content.content|safe }}
+                            </table>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="ex">
+                        {{ fill_question.content|safe }}
+                        <form id="fill-question" class="fill-question">
+                            <div class="part">
+                                {{ fill_question.question|safe }}
+                            </div>
+
+                            <button id="fill-answers-submit" type="button" class="btn btn-outline-dark">送出</button>
+                            <button id="next-course" type="button" class="btn btn-outline-dark" style="display:none;">
+                                下一課
+                            </button>
+                            <button id="goto-assessment" type="button" class="btn btn-outline-dark"
+                                    style="display:none;">
+                                寫作業
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--contain end-->
+
+{% endblock %}
+
+{% block tailjslink %}
+    {% csrf_token %}
+    <script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+
+    <script type='text/javascript'>
+        (function ($) {
+            $(window).on("load", function () {
+                $("#bd-sidebar").mCustomScrollbar();
+                $(".content").mCustomScrollbar();
+            });
+        })(jQuery);
+
+        let fill_question_input = $("#fill-question input");
+        let fill_answers_submit = $("#fill-answers-submit");
+
+        fill_question_input.keyup(function (e) {
+            let code = e.keyCode || e.which;
+
+            console.log("keyup:");
+            console.log(code);
+
+            if (code === 8 || code === 37 || code === 38) {
+                $(this).prev().focus();
+            } else if (code === 39 || code === 40) {
+                $(this).next().focus();
+            }
+        });
+
+        fill_question_input.keypress(function (e) {
+            let code = e.keyCode || e.which;
+
+            console.log("keypress:");
+            console.log(code);
+
+            if ((code >= 33 && code <= 126)) {
+                $(this).next().focus();
+
+                if ($(this).val()) {
+                    $(this).next().val(e.key);
+                }
+            }
+
+            if (code === 13) {
+                e.preventDefault();
+
+                if (fill_answers_submit.css("display") === "block") {
+                    $("#fill-answers-submit").click();
+                } else {
+                    {% if assessment_pk %}
+                        $("#goto-assessment").click();
+                    {% else %}
+                        $("#next-course").click();
+                    {% endif %}
+                }
+            }
+        });
+
+        function answer_send() {
+
+            let fill_form = $("#fill-question");
+
+            let answer = "";
+
+            fill_form.serializeArray().forEach(function (e) {
+                if (e["value"] === "") {
+                    answer += "~";
+                } else {
+                    answer += e["value"];
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                data: {answer: answer},
+                url: "{% url 'course:course' lesson chapter %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+
+                    let all_input = $("#fill-question input");
+
+                    let which_false = result["which_false"];
+
+                    for (let i = 0; i < all_input.length; i++) {
+                        let temp = $(all_input[i]);
+                        temp.removeClass("default");
+                        temp.removeClass("red");
+                        temp.addClass("green");
+                    }
+
+                    which_false.forEach(function (e) {
+                        let temp = $(all_input[e]);
+                        temp.removeClass("default");
+                        temp.removeClass("green");
+                        temp.addClass("red");
+                    });
+
+                    let is_answer_right = result["is_answer_right"];
+                    let is_assessment_exist = result["is_assessment_exist"];
+
+                    if (is_answer_right) {
+                        $("#fill-answers-submit").hide();
+
+                        if (is_assessment_exist) {
+                            $("#goto-assessment").show();
+                        } else {
+                            $("#next-course").show();
+                        }
+                    }
+                },
+
+                error: function () {
+                    console.log(888);
+                }
+            });
+        }
+
+        fill_answers_submit.click(answer_send);
+
+        $("#next-course").click(function () {
+            window.location.href = "{% url "course:course" lesson chapter|add:'1' %}"
+        });
+
+        {% if assessment_pk %}
+            $("#goto-assessment").click(function () {
+                window.location.href = "{% url "assessment:assessment" assessment_pk %}"
+            });
+        {% endif %}
+    </script>
+{% endblock %}

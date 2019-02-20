@@ -1,0 +1,231 @@
+body {
+    background-color: #EEF5F9;
+
+    font-family: 微軟正黑體;
+}
+
+.container {
+    padding: 15px;
+}
+
+.sign-up {
+    background-color: white;
+
+    padding: 15px;
+
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 4px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+form > div {
+    width: 100%;
+}
+
+.form-input {
+    margin-bottom: 45px;
+}
+
+label {
+    color: #999999;
+}
+
+input[type="text"],
+input[type="password"] {
+    height: 48px;
+    width: 100%;
+
+    border: none;
+    border-bottom: 1px solid #d0d0d0;
+
+    background-color: none;
+    padding-left: 5px;
+    font-size: 22px;
+    font-style: bold;
+    font-family: Arial;
+}
+
+input[type="submit"] {
+    height: 100%;
+    width: 100%;
+
+}
+
+.btn-signup {
+    color: white;
+
+    background-color: #23415C;
+
+    border: none;
+
+    border-radius: 200px;
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 0px 15px;
+    }
+}
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
+.wrap-user-input {
+    width: 100%;
+    position: relative;
+    border-bottom: 2px solid #dbdbdb;
+    margin-bottom: 45px;
+}
+
+.label-user-input {
+    font-family: Poppins-SemiBold;
+    font-size: 18px;
+    color: #999999;
+    line-height: 1.2;
+    padding-left: 2px;
+}
+
+.user-input {
+    display: block;
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    font-family: Poppins-Regular;
+    font-size: 22px;
+    color: #555555;
+    line-height: 1.2;
+    padding: 0 2px;
+}
+
+.focus-input {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.focus-input::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+
+    background: none;
+    /*    background-color: green;*/
+}
+
+.true-validate > .focus-input::before {
+    background-color: greenyellow;
+}
+
+.alert-validate > .focus-input::before {
+    background-color: red;
+}
+
+.user-input:focus + .focus-input::before {
+    width: 100%;
+}
+
+.has-val.user-input + .focus-input::before {
+    width: 100%;
+}
+
+/*------------------------------------------------------------------
+[ Alert validate ]*/
+
+.validate-input {
+    position: relative;
+}
+
+.alert-validate::before {
+    content: attr(data-validate);
+    position: absolute;
+    max-width: 70%;
+    background-color: #fff;
+    border: 1px solid #c80000;
+    border-radius: 2px;
+    padding: 4px 30px 4px 10px;
+    bottom: calc((100% - 25px) / 2);
+    -webkit-transform: translateY(50%);
+    -moz-transform: translateY(50%);
+    -ms-transform: translateY(50%);
+    -o-transform: translateY(50%);
+    transform: translateY(50%);
+    right: 2px;
+    pointer-events: none;
+
+    font-family: Poppins-Medium;
+    color: #c80000;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.alert-validate::after {
+    content: "\f06a";
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    color: #c80000;
+    font-size: 18px;
+    bottom: calc((100% - 25px) / 2);
+    -webkit-transform: translateY(50%);
+    -moz-transform: translateY(50%);
+    -ms-transform: translateY(50%);
+    -o-transform: translateY(50%);
+    transform: translateY(50%);
+    right: 8px;
+}
+
+.alert-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 992px) {
+    .alert-validate::before {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.true-validate::after {
+    content: "\f26b";
+    font-family: Material-Design-Iconic-Font;
+    font-size: 22px;
+    color: #00ad5f;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: calc((100% - 25px) / 2);
+    -webkit-transform: translateY(50%);
+    -moz-transform: translateY(50%);
+    -ms-transform: translateY(50%);
+    -o-transform: translateY(50%);
+    transform: translateY(50%);
+    right: 5px;
+}

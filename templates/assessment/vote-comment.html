@@ -1,0 +1,112 @@
+{% load static %}
+{% load tz %}
+{# TODO add delete button #}
+<div class="row no-gutters">
+    <div style="margin: 10px;">
+        <div class="comment">
+            <img src="{% static main_comment.user.image_url %}" alt=""
+                 style="width: 35px" title="{{ main_comment.user }}">
+        </div>
+    </div>
+
+
+    <div class="col" style="padding-top: 10px;">
+        <div class="row no-gutters">
+            <p class="form-control align-middle">{{ main_comment.content }}</p>
+        </div>
+
+        <div class="row no-gutters comment-feature">
+            <div class="like">
+                {% if main_comment.like_status %}
+                    <a class="liked" href="javascript: void(0)"
+                       data-comment-id="{{ main_comment.id }}"
+                       data-type="like">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                {% else %}
+                    <a href="javascript: void(0)"
+                       data-comment-id="{{ main_comment.id }}"
+                       data-type="like">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                {% endif %}
+
+                <span class="like-number">
+                    {{ main_comment.like }}
+                </span>
+
+                {% if main_comment.like_status == False %}
+                    <a class="liked" href="javascript: void(0)"
+                       data-comment-id="{{ main_comment.id }}"
+                       data-type="dislike">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                {% else %}
+                    <a href="javascript: void(0)"
+                       data-comment-id="{{ main_comment.id }}"
+                       data-type="dislike">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                {% endif %}
+                <span class="dislike-number">
+                    {{ main_comment.dislike }}
+                </span>
+            </div>
+
+            <div class="reply">
+                <a type="button" class="" data-toggle="collapse"
+                   href="#comment-reply-{{ main_comment.id }}" role="button"
+                   aria-expanded="false" aria-controls="comment-reply-Luaa">
+                    <p>回覆</p>
+                </a>
+            </div>
+
+            <div>
+                <p>{{ main_comment.datetime|timezone:"Asia/Taipei"|date:"Y-m-d a h.i.s" }}</p>
+            </div>
+
+            {% if main_comment.user == user %}
+                <div>
+                    <a class="comment-delete" href="javascript: void(0)" data-comment-id="{{ main_comment.id }}"
+                       data-type="delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        {# comment_replied start #}
+        <div class="collapse" id="comment-reply-{{ main_comment.id }}">
+
+            {% for replied in main_comment.replies %}
+
+                {% include "assessment/vote-comment-reply.html" %}
+
+            {% endfor %}
+
+            <div class="row no-gutters">
+                <div class="" style="margin: 10px;">
+                    <div class="comment">
+                        <img src="{% static user.image_url %}" alt=""
+                             style="width: 35px">
+                    </div>
+                </div>
+
+                <div class="col" style="padding-top: 10px;">
+                    <div class="row no-gutters">
+                        <input type="text"
+                               class="form-control align-middle user-comment-reply"
+                               aria-describedby=""
+                               placeholder="留言 ..." data-type="comment"
+                               data-ac-id="{{ content.id }}"
+                               data-reply="{{ main_comment.id }}">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>

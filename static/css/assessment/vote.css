@@ -1,0 +1,354 @@
+#main {
+    padding: 0 3em;
+}
+
+.change {
+    margin-top: 3%;
+}
+
+h3 {
+    font-family: 微軟正黑體;
+}
+
+.form-group > textarea {
+    margin: 10px 0;
+}
+
+.search {
+    height: 100%;
+}
+
+.wiki-search {
+    max-height: 484.5px;
+}
+
+.sort {
+    padding-left: 15px;
+}
+
+.sort > ul {
+    height: 1.5em;
+}
+
+.sort > ul > li {
+    float: left;
+    border-right: 1px solid rgba(0, 0, 0, 0.125);
+    margin-right: 10px;
+    padding-right: 10px;
+    line-height: 18px;
+}
+
+.sort > ul > li:last-child {
+    float: left;
+    border-right: none;
+    margin-right: 10px;
+    padding-right: 10px;
+    line-height: 18px;
+}
+
+.sort a {
+    color: black;
+}
+
+.sort a:hover {
+    text-decoration: none;
+    color: #004b97 !important;
+}
+
+.sort .active a {
+    color: #0080ff;
+}
+
+/*code*/
+
+pre.prettyprint {
+    margin-top: 1rem;
+    padding: 15px !important;
+
+    background-color: #f0f0f0;
+
+    border: none !important;
+
+    font-size: 20px;
+
+    height: 100%;
+}
+
+.str {
+    color: #1a1aa6 !important;
+}
+
+.clo,
+.opn,
+.pun {
+    color: black !important;
+}
+
+.kwd {
+    color: rgb(147, 15, 128) !important;
+}
+
+.lit {
+    color: rgb(0, 0, 205) !important;
+}
+
+.com {
+    color: #236E24 !important;
+}
+
+/*btn*/
+
+#btn-vote {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+#btn-message {
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+
+    border: 0px;
+}
+
+.flate {
+    background-color: white;
+
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 4px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/*editor*/
+
+#ace_gutter {
+    height: 59px;
+    width: 40px;
+    border-style: solid;
+    float: left;
+}
+
+#editor {
+    /*    position: absolute;*/
+    /*    width: calc(100% - 30px);*/
+    height: 50%;
+    /*    border-radius: 1%;*/
+    background-color: #f0f0f0;
+    margin-top: 4px;
+}
+
+/*icons*/
+
+.element {
+    position: relative;
+    margin-left: 100px;
+}
+
+.element:before {
+    content: "\f086";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    /*    --adjust as necessary--*/
+    color: #000;
+    font-size: 35px;
+    /*    padding-right: 0.5em;*/
+    position: absolute;
+}
+
+.element:focus {
+    background-color: #e0e0e0;
+}
+
+.element-1 {
+    position: relative;
+    margin-left: 100px;
+}
+
+.element-1:before {
+    content: "\f046";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    /*--adjust as necessary--*/
+    color: #000;
+    font-size: 35px;
+    /*    padding-right: 0.5em;*/
+    position: absolute;
+}
+
+.row.no-gutters > form {
+    width: 100%;
+}
+
+.feature {
+    padding: 5px 0;
+    font-size: 35px;
+
+}
+
+.feature a {
+    height: 52px;
+    width: 1em;
+
+    margin-right: 15px;
+    position: relative;
+
+    text-decoration: none;
+
+}
+
+.feature a span {
+    height: 100%;
+    width: 100%;
+
+    margin: 0;
+
+    position: absolute;
+
+    font-family: FontAwesome;
+}
+
+/*button*/
+
+.feature a {
+    position: relative;
+
+    margin: 10px;
+
+    padding: 0;
+
+    height: 48px;
+    width: 48px;
+
+    color: white;
+
+    background-color: #23415C;
+
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+
+    z-index: 1;
+
+    vertical-align: middle;
+
+    display: inline-block;
+
+    overflow: hidden;
+
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: none;
+
+    cursor: pointer;
+}
+
+.feature a > i {
+    position: absolute;
+
+    display: inline-block;
+    width: inherit;
+
+    text-align: center;
+
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 1.25rem;
+    line-height: 48px;
+}
+
+html [type="button"] {
+    -webkit-appearance: none;
+}
+
+.buttons {
+    color: white;
+}
+
+.btn-comment::before {
+    content: "\f086"
+}
+
+.btn-vote::before {
+    content: "\f00c"
+}
+
+/*comment*/
+
+.comment {
+    text-align: center;
+}
+
+.comment-feature > div {
+    margin: 0 10px;
+}
+
+.form-control {
+
+    border-radius: 250px;
+
+}
+
+.message {
+    position: relative;
+
+    width: calc(100% - 55px);
+}
+
+.like a {
+    color: gray;
+}
+
+.liked > .fa-thumbs-up {
+
+    color: #007bff;
+
+}
+
+.liked > .fa-thumbs-down {
+
+    color: #930000;
+
+}
+
+.comment-delete {
+
+    color: black;
+
+}
+
+/*page*/
+
+.page-item.active .page-link {
+    background-color: #003d79;
+    border-color: #003d79;
+}
+
+/*reply*/
+
+.reply a:hover {
+    text-decoration: none;
+}
+
+.reply a:link {
+    color: black;
+}
+
+/*vote rate*/
+
+.progress-bar {
+    background-color: #23415C;
+}
+
+.voted {
+    color: #23415C;
+    background-color: white;
+}

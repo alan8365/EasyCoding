@@ -1,0 +1,35 @@
+@import url("global.css") print;
+
+.conwrapper {
+    height: 100vh;
+
+    padding-top: 2em;
+}
+
+#static-wrapper {
+    height: 100%;
+}
+
+.static-tag {
+    margin-top: 5%;
+
+    height: 40px;
+}
+
+.static-tag > div {
+    background-color: var(--theme);
+
+    text-align: center;
+
+    line-height: 40px;
+}
+
+.choice-tag {
+    background-color: var(--height) !important;
+}
+
+#static-content {
+    height: 80%;
+
+    background-color: var(--theme);
+}

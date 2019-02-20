@@ -1,0 +1,86 @@
+@import url("global.css") print;
+
+.menu-toggle {
+    position: relative;
+
+    cursor: pointer;
+    float: right;
+    font-size: 0.875rem;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+
+    height: 35px;
+    width: 35px;
+}
+
+.menu-toggle-grippy,
+.menu-toggle-grippy:after,
+.menu-toggle-grippy:before {
+    position: absolute;
+
+    left: 0px;
+
+    width: 35px;
+    height: 5px;
+
+    background-color: white;
+
+    content: "";
+
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    border-radius: 10px;
+}
+
+.menu-toggle-grippy {
+    top: 15px;
+    height: 5px;
+
+    width: 35px;
+
+}
+
+.menu-toggle-grippy:after {
+
+    bottom: -10px;
+
+}
+
+.menu-toggle-grippy:before {
+
+    top: -10px;
+
+}
+
+.xtype > .menu-toggle-grippy {
+    background-color: var(--theme);
+}
+
+.xtype > .menu-toggle-grippy:before {
+    -webkit-transform: translateY(10px) rotate(45deg);
+    transform: translateY(10px) rotate(45deg);
+}
+
+.xtype > .menu-toggle-grippy:after {
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+    transform: translateY(-10px) rotate(-45deg);
+
+}
+
+#menu {
+    position: fixed;
+
+    background-color: var(--theme);
+    left: -300px;
+    top: 0;
+
+    height: 100%;
+    width: 300px;
+
+    display: block;
+
+    -webkit-transition: all 0.3s ease-in-out;
+
+    transition: all 0.3s ease-in-out;
+}

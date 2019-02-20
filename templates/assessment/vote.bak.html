@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+
+{% block title %}
+    vote
+{% endblock %}
+
+{% load static %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/assessment/vote.css" %}">
+    <link rel="stylesheet" href="{% static "Scrollbar/jquery.mCustomScrollbar.css" %}">
+{% endblock %}
+
+{% block jslink %}
+    <script src="{% static "js/assessment/run_prettify.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mousewheel.min.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mCustomScrollbar.js" %}"></script>
+{% endblock %}
+
+{% load tz %}
+{% load assessment_extras %}
+
+
+{# TODO need update #}
+{% block content %}
+    <section id="main">
+        <div class="row flate sort align-items-end">
+            <div class="col">
+                <h3>
+                    <a id="assessment_back" href="{% url 'assessment:assessment' pk %}">
+                        {{ assessment }}
+                    </a>
+                </h3>
+            </div>
+
+            <ul class="nav">
+                <li class="nav-item"><b>排序方式 :</b></li>
+
+                {% for sort_type, type_name in sort_types %}
+                    <li class="nav-item {% if sort_type == sort_by %}active{% endif %}">
+                        <a class="order-type" href="{% url "assessment:vote" pk sort_type %}">
+                            {{ type_name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        {% for content in contents %}
+            <div class="row flate">
+                <div class="col">
+                    <div class="form-group">
+                        <div class="row no-gutters align-items-center">
+                            <img src="{% static content.user.image_url %}" alt="user"
+                                 style="height: 60px; margin-right: 10px">
+                            <span>
+                                <h2>
+                                    <a href="{% url "account:profile_for_other" content.user.username %}">
+                                        {{ content.user }}
+                                    </a>
+                                </h2>
+                            </span>
+                        </div>
+
+                        <div class="wiki-search">
+                            <div class="search">
+                                <pre class="prettyprint"><code class="language-python">{{ content.code }}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="row no-gutters feature align-items-center" style="">
+                            <div class="buttons">
+                                <a type="button" class="" data-toggle="collapse" href="#comment_to_{{ content.id }}"
+                                   role="button"
+                                   aria-expanded="false" aria-controls="comment_to_{{ content.id }}">
+                                    <i class="btn-comment"></i>
+                                </a>
+
+                                <a type="button" class="vote-button" data-ac-id="{{ content.id }}" data-type="vote">
+                                    {% if content.id != already_voted_id %}
+                                        <i class="btn-vote"></i>
+                                    {% else %}
+                                        <i class="btn-vote voted"></i>
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                            <div class="col" style="margin-left: 10px;">
+                                <div class="progress" style="height: 30px;">
+                                    <div id="progress-bar-{{ content.id }}" class="progress-bar" role="progressbar"
+                                         style="width: {{ content.point_percent }}%;" aria-valuenow="30"
+                                         aria-valuemin="0" aria-valuemax="100">{{ content.point_percent }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# comment start #}
+                        <div class="row">
+                            <div class="col">
+                                <div class="collapse show" id="comment_to_{{ content.id }}">
+                                    <div class="card card-body">
+                                        <div class="row no-gutters">
+                                            <div class="" style="margin: 10px;">
+                                                <div class="comment">
+                                                    <img src="{% static user.image_url %}" alt="" style="width: 35px">
+                                                </div>
+                                            </div>
+
+                                            <div class="col" style="padding-top: 10px;">
+                                                <div class="row no-gutters">
+                                                    <input type="text" class="form-control align-middle user-comment"
+                                                           aria-describedby=""
+                                                           placeholder="留言 ..." data-type="comment"
+                                                           data-ac-id="{{ content.id }}" data-reply="None">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {#comments#}
+                                        {% for main_comment in content.main_comments %}
+
+                                            {% include 'assessment/vote-comment.html' %}
+
+                                        {% endfor %}
+                                        {#comments ends#}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        {# TODO fix footer #}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item">
+                    <a class="page-link" href="{% url "assessment:vote" pk sort_by 1 %}">first</a>
+                </li>
+
+                {# previous page #}
+                <li class="page-item {% if page == 1 %}disabled{% endif %}">
+
+                    <a class="page-link" href="{% url "assessment:vote" pk sort_by page|add:"-1" %}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+
+                </li>
+
+                <li class="page-item active"><a class="page-link" href="javascript:void(0);">{{ page }}</a></li>
+
+                <li class="page-item {% if page == page_number %}disabled{% endif %}">
+                    <a class="page-link" href="{% url "assessment:vote" pk sort_by page|add:"1" %}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link" href="{% url "assessment:vote" pk sort_by page_number %}">last</a>
+                </li>
+
+            </ul>
+        </nav>
+    </section>
+{% endblock %}
+
+{% block tailjslink %}
+
+    <script type='text/javascript'>
+        $(".prettyprint").mCustomScrollbar();
+    </script>
+
+    {% csrf_token %}
+    <script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+
+    {# functions #}
+    <script>
+        let wait_time = 500;
+
+        let vote_lock = false;
+        let vote_lock_countdown;
+
+        let like_lock = false;
+        let like_lock_countdown;
+
+        let comment_lock = false;
+        let comment_lock_countdown;
+
+        function enter_detector(e) {
+
+            let code = e.keyCode ? e.keyCode : e.which;
+
+            if (code === 13) {
+                e.preventDefault();
+                $(this).submit();
+            }
+        }
+
+        {# TODO clear textbox #}
+
+        function comment_send() {
+
+            if (!comment_lock) {
+
+                let type = $(this).attr("data-type");
+                let ass_code_id = $(this).attr("data-ac-id");
+                let content = $(this).val();
+
+                $(this).val("");
+
+                $.ajax({
+                    type: "POST",
+                    data: {"type": type, "ac_id": ass_code_id, "reply": "None", "content": content},
+                    url: "{% url "assessment:vote" pk %}",
+                    cache: false,
+                    dataType: "json",
+                    success: function (result) {
+
+                        let target = $("#comment_to_" + ass_code_id + " > div > div:nth-child(1)");
+
+                        target.after(
+                            result.new_comment
+                        );
+
+                        $(".like > a").click(like_send);
+
+                        $(".user-comment-reply").submit(reply_comment_send);
+
+                        $('.user-comment, .user-comment-reply').keypress(enter_detector);
+
+                        $(".comment-delete").click(comment_delete_send);
+
+                    },
+                    error: function () {
+                        console.log(888);
+                    }
+
+
+                });
+
+                comment_lock = true;
+                comment_lock_countdown = setInterval(unlock_comment, wait_time);
+            }
+
+        }
+
+        function reply_comment_send() {
+
+            if (!comment_lock) {
+
+                let type = $(this).attr("data-type");
+                let ass_code_id = $(this).attr("data-ac-id");
+                let reply = $(this).attr("data-reply");
+                let content = $(this).val();
+
+                $(this).val("");
+
+                $.ajax({
+                    type: "POST",
+                    data: {"type": type, "ac_id": ass_code_id, "reply": reply, "content": content},
+                    url: "{% url "assessment:vote" pk %}",
+                    cache: false,
+                    dataType: "json",
+                    success: function (result) {
+
+                        let target = $("#comment-reply-" + reply);
+
+                        target.prepend(
+                            result.new_comment
+                        );
+
+                        $(".like > a").click(like_send);
+                        $(".comment-delete").click(comment_delete_send);
+
+                    },
+                    error: function () {
+                        console.log(888);
+                    }
+                });
+
+                comment_lock = true;
+                comment_lock_countdown = setInterval(unlock_comment, wait_time);
+            } else {
+
+            }
+        }
+
+        function unlock_comment() {
+            comment_lock = false;
+            clearInterval(comment_lock_countdown);
+        }
+
+        function like_send() {
+
+            if (!like_lock) {
+
+                let comment_id = $(this).attr("data-comment-id");
+                let type = $(this).attr("data-type");
+                let self = $(this);
+
+                $.ajax({
+                    type: "POST",
+                    data: {"id": comment_id, "type": type},
+                    url: "{% url "assessment:vote" pk %}",
+                    cache: false,
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.status == "create") {
+                            self.addClass("liked");
+                        } else if (result.status == "delete") {
+                            self.removeClass("liked");
+                        } else {
+                            self.addClass("liked");
+
+                            let change = self.siblings("a");
+                            change.removeClass("liked");
+                        }
+
+                        let like_number = self.siblings(".like-number");
+                        let dislike_number = self.siblings(".dislike-number");
+
+                        like_number.html(result.like);
+                        dislike_number.html(result.dislike);
+
+                    },
+                    error: function () {
+                        console.log(888);
+                    }
+                });
+
+                like_lock = true;
+                like_lock_countdown = setInterval(unlock_like, wait_time);
+            } else {
+                alert("等五秒啦連點P噢");
+            }
+
+        }
+
+        function unlock_like() {
+            like_lock = false;
+            clearInterval(like_lock_countdown);
+        }
+
+        function vote_send() {
+
+            if (!vote_lock) {
+
+                let ass_code_id = $(this).attr("data-ac-id");
+                let type = $(this).attr("data-type");
+
+                let progress_bar = $("#progress-bar-" + ass_code_id);
+                let new_voted = $(this).find("i");
+
+                $.ajax({
+                    type: "POST",
+                    data: {"id": ass_code_id, "type": type},
+                    url: "{% url "assessment:vote" pk %}",
+                    cache: false,
+                    dataType: "json",
+                    success: function (result) {
+
+                        $(".voted").removeClass("voted");
+                        new_voted.addClass("voted");
+
+                        let old_point = result.org_point;
+
+                        if (result.point >= 0) {
+                            progress_bar.html(result.point + "%");
+                            progress_bar.width(result.point + "%");
+                        }
+
+                        if (old_point >= 0) {
+                            let org_progress_bar = $("#progress-bar-" + result.org_code);
+
+                            org_progress_bar.html(result.org_point + "%");
+                            org_progress_bar.width(result.org_point + "%")
+                        }
+
+                        if (result.org_code == ass_code_id) {
+                            new_voted.removeClass("voted");
+                        }
+                    },
+                    error: function () {
+                        console.log(888);
+                    }
+                });
+
+                vote_lock = true;
+                vote_lock_countdown = setInterval(unlock_vote, wait_time);
+            }
+        }
+
+        function unlock_vote() {
+            vote_lock = false;
+            clearInterval(vote_lock_countdown);
+        }
+
+        function comment_delete_send() {
+            let comment_id = $(this).attr("data-comment-id");
+            let type = $(this).attr("data-type");
+            let self = $(this);
+
+            {# TODO finish it #}
+            $.ajax({
+                type: "POST",
+                data: {"type": type, "comment_id": comment_id},
+                url: "{% url "assessment:vote" pk %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+
+                    console.log(result);
+
+                    let comment = $(self.parent().parent().parent().parent());
+
+                    comment.remove();
+                },
+                error: function () {
+                    console.log(888);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(".vote-button").click(vote_send);
+
+        $('.user-comment, .user-comment-reply').keypress(enter_detector);
+
+        $(".user-comment").submit(comment_send);
+
+        $(".user-comment-reply").submit(reply_comment_send);
+
+        $(".like > a").click(like_send);
+
+        $(".comment-delete").click(comment_delete_send);
+    </script>
+{% endblock %}

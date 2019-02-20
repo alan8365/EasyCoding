@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<head>
+    <title>Easy Coding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--no online-->
+    <link rel="stylesheet" href="{% static "boot/bootstrap-4.0.0.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/menu.css" %}">
+    {#    <link rel="stylesheet" href="{% static "css/index/index.css" %}">#}
+    <link rel="stylesheet" href="{% static "css/index/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/fontawesome.css" %}">
+
+    <!--no online-->
+    <script src="{% static "boot/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "boot/bootstrap-4.0.0.js" %}"></script>
+
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+</head>
+
+<body>
+
+<!--menu-->
+<nav id="menu" class="navbar navbar-expand-md sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url "home" %}">
+            <img src="{% static 'img/bubu.png' %}" width="170px">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#meun-collapse"
+                style="margin-right: 15px">
+            <div class="menu-toggle">
+                <span class="menu-toggle-grippy"></span>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="meun-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "account:login" %}">登入</a>
+                </li>
+
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url "account:contact" %}">聯繫我們</a>#}
+{#                </li>#}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div id="home">
+    <div class="landing-text">
+        <h1>Easy Coding</h1>
+        <h3>開始Python的旅程</h3>
+        <a href="{% url "account:register" %}" class="btn btn-outline-dark btn-lg">開始學習</a>
+    </div>
+</div>
+
+<section id="about">
+    <div class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="{% static "img/python-s.png" %}">
+                </div>
+
+                <div class="col-sm-6 text-center">
+                    <h2>讓你燃起學Python的熱情</h2>
+                    <p class="lead">
+                        總是在學習新的程式語言時，特別去注意輸出格式嗎?但是在Python裡面不需要!只需要打print'輸入你想輸入的內容'，就可以輕鬆得到輸出結果。減少繁瑣的步驟，也減少學習的負擔感，讓初學者更輕鬆的學習Python!</p>
+                    <p class="lead">Easy Coding是為了讓完全沒有基礎的使用者，一步一步帶領使用者寫Python，讓你不再害怕寫程式!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <h4>最貼心的中文化</h4>
+                    <p>
+                        總是在網路上學習Python的時候，遇到都是英文的教材而感到煩惱嗎?我們的網站，為使用者創作出全中文的教學課程及評量，不必擔心翻譯問題，並省下翻譯的時間，讓使用者安心順利的閱讀並實作讓學習基礎更扎實。</p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <img src="{% static "img/ch.png" %}" class="img-responsive">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <h4>基礎的Python教學</h4>
+                    <p>害怕一開始學習就碰到範例看不懂、作業寫不出來的窘境嗎?本網站的課程難易度是隨著使用者的進度慢慢改變的，讓使用者從0開始學習，避免基礎沒打好，還壞了學習程式語言的熱情。</p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <img src="{% static "img/python.png" %}" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="fixed">
+
+</div>
+
+<div class="padding">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <img src="{% static "img/python-p.png" %}">
+            </div>
+
+            <div class="col-md-6">
+                <h2>為什麼是Python?</h2>
+                <img src="{% static "img/vs4.png" %}" class="img-responsive">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer class="container-fluid text-cener">
+    <div class="row">
+        <div class="col-lg-3 col-sm-2 col-1"></div>
+
+        <div class="col-lg-4 col-sm-4 col-5">
+            <h3>關於我們</h3><br>
+            <h4>國立台中科技大學 資訊管理科</h4>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 col-5">
+            <img src="{% static "img/p.png" %}" class="icon" width=100>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'js/menu.js' %}"></script>
+
+</body>
+
+</html>

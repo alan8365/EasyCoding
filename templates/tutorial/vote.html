@@ -1,0 +1,58 @@
+{% extends "assessment/vote.html" %}
+
+{% block tutorial %}
+    {% include "tutorial/tutorial.html" %}
+{% endblock %}
+
+{% block tutorialjs %}
+    <script>
+        let sub_tittle_content = $("#sub-tittle > span");
+
+        let next_step = $("#next-step");
+
+        let step = 0;
+        let script = [
+            "這裡是投票頁，你可以看到剛剛你寫完的作業就放在這裡",
+            "在這裡你也可以看到其他人的程式碼並給你覺得最好的程式碼投票",
+            "如果看不懂其他人的程式碼也可以在底下留言討論",
+            "恭喜你完成新手教學，點一下右邊的回首頁就可以回到首頁囉"
+        ];
+
+        sub_tittle_content.text(script[step]);
+
+        $(".order-type").click(function () {
+            $(this).attr("href", "javascript:void(0)");
+            alert("教學完再點啦");
+        });
+
+        $("#menu a").click(function (e) {
+            $(this).attr('href', "javascript:void(0)");
+            alert("教學完再點啦");
+        });
+
+        $(".page-link").click(function(){
+            $(this).attr('href', "javascript:void(0)");
+            alert("教學完再點啦");
+        })
+
+        $(".limit").css("z-index", -1);
+
+        $("#assessment_back").attr("href", "{% url "tutorial:assessment" pk %}");
+
+        next_step.click(function (e) {
+            if (step < script.length) {
+                step += 1;
+            }
+
+            sub_tittle_content.text(script[step]);
+
+            if(step === 3){
+                next_step.text("回首頁");
+                next_step.click(function(){
+                    window.location.href = "{% url "home" %}";
+                })
+            }
+        });
+    </script>
+{% endblock %}
+

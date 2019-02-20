@@ -1,0 +1,223 @@
+#main {
+    padding: 3em 1em;
+    background-color: #eef5f9;
+
+}
+
+header {
+    text-align: center;
+    font-family: monospace;
+}
+
+header h1 {
+    font-size: 55px;
+    font-family: Comic Sans MS;
+}
+
+header p {
+    font-size: 20px;
+}
+
+header p:link {
+    color: rgba(35, 36, 38);
+    text-decoration: none;
+}
+
+.bu > div {
+    padding: 15px;
+}
+
+.content {
+    border-style: none;
+    border-radius: 4px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+
+    padding: 10px;
+    height: 484.5px;
+
+    /*    text-align: center;*/
+    font-family: 微軟正黑體;
+    font-size: 10px;
+
+    color: #7b7b7b;
+    background-color: white;
+}
+
+
+.content a:not([href]) {
+    color: #23415C;
+}
+
+.content a {
+    font-size: 40px;
+
+    color: #23415C;
+    text-decoration: none;
+
+    padding: 0 15px;
+}
+
+.content a:hover {
+    color: #0000c6;
+}
+
+.content a:active {
+    color: #0000c6;
+}
+
+highlight {
+    color: #0072e3;
+}
+
+.title {
+    position: relative;
+
+    border-bottom: 1px solid #d0d0d0;
+
+    height: 15%;
+}
+
+.title i {
+    font-size: 40px;
+}
+
+.description {}
+
+.description::after {
+    content: '\f059';
+
+    position: absolute;
+
+    right: 0;
+    top: calc(50% - 15px);
+    z-index: 2;
+
+    color: #23415C;
+
+    font-size: 20px;
+    font-family: "Font Awesome 5 Free";
+}
+
+.description::before {
+    content: attr(data-description);
+
+    position: absolute;
+
+    right: -5px;
+    top: calc(50% - 15px);
+
+    padding-right: 25px;
+    padding-left: 10px;
+
+    background-color: white;
+
+    color: #23415C;
+    font-size: 15px;
+    word-break: break-all;
+
+    z-index: 1;
+
+    border: 1px solid;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+
+    width: 50%;
+}
+
+.description:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
+.post1 {
+    padding-top: 10px;
+}
+
+.assessment {
+    height: 85%;
+
+    padding: 15px;
+    font-size: 20px;
+}
+
+.assessment > div > .row {
+    padding: 0 15px;
+    /*    border: 1px solid #d0d0d0;*/
+}
+
+/*.assessment .actions > button {*/
+    /*height: 12px;*/
+    /*width: 12px;*/
+/*}*/
+
+.input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.search {
+    background-color: #eef5f9;
+    padding: 10px 0;
+
+    overflow: auto;
+
+    height: 100%;
+}
+
+.search a {
+    font-size: 20px;
+}
+
+.wiki-search {
+    height: 70%
+}
+
+.caption {
+    padding: 0 60px 10px 60px;
+}
+
+.difficult {
+    width: 25%;
+}
+
+.hw-title {
+    width: 50%;
+}
+
+.none {
+    text-align: center;
+    margin-top: 7rem;
+    font-size: 15px;
+}
+
+/*own*/
+
+.post {
+    /*    padding: 40px 0;*/
+    text-align: center;
+    font-family: 微軟正黑體 !important;
+
+    background-color: #eef5f9;
+    margin: 5px 5px;
+}
+
+.chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+}

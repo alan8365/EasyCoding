@@ -1,0 +1,39 @@
+body {
+    background-color: black;
+}
+
+#sortable {
+    list-style-type: none;
+
+    margin: 0;
+    padding: 0;
+}
+
+#sortable > li {
+    background-color: gray;
+
+    border: 1px solid black;
+
+    border-radius: 0.25rem;
+
+    margin: 15px;
+}
+
+.dropdown > .content {
+
+    background-color: darkgrey;
+
+    width: 100%;
+}
+
+.content > textarea {
+
+    background-color: darkgrey;
+
+    border: none;
+
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+
+    width: 100%;
+}

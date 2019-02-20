@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ user }}的成就頁面
+{% endblock %}
+
+{% load static %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/account/normalize.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/account/achievement.css" %}">
+{% endblock %}
+
+{% block jslink %}
+    <script type="text/javascript" src="{% static "js/account/html5shiv.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row content">
+
+            <div id="lesson" class="col-md-12 col-lg-12 text-center">
+                <div class="row">
+                    {% for achievement in all_achievement %}
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="float{% if not achievement.is_unlock %} lock {% endif %}">
+                                <img src="{% static achievement.image %}" width="100"
+                                     style="padding-top: 15px">
+
+                                <h2>{{ achievement.title }}</h2>
+
+                                <p>
+                                    {% if achievement.is_unlock %}
+                                        <span class="badge badge-pill badge-success">成功</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">尚未獲得</span>
+                                    {% endif %}
+                                    {{ achievement.description }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block tailjslink %}
+
+{% endblock %}

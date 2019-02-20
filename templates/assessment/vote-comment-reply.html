@@ -1,0 +1,76 @@
+{% load static %}
+{% load tz %}
+
+
+<div class="row no-gutters">
+
+    <div class="" style="margin: 10px;">
+        <div class="comment">
+            <img src="{% static replied.user.image_url %}"
+                 alt=""
+                 style="width: 35px">
+        </div>
+    </div>
+
+    <div class="col" style="padding-top: 10px;">
+        <div class="row no-gutters">
+            <p class="form-control align-middle">{{ replied.content }}</p>
+        </div>
+
+        <div class="row no-gutters comment-feature">
+            <div class="like">
+                {% if replied.like_status %}
+                    <a class="liked"
+                       href="javascript: void(0)"
+                       data-comment-id="{{ replied.id }}"
+                       data-type="like">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                {% else %}
+                    <a href="javascript: void(0)"
+                       data-comment-id="{{ replied.id }}"
+                       data-type="like">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                {% endif %}
+
+                <span class="like-number">
+                    {{ replied.like }}
+                </span>
+
+                {% if replied.like_status == False %}
+                    <a class="liked"
+                       href="javascript: void(0)"
+                       data-comment-id="{{ replied.id }}"
+                       data-type="dislike">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                {% else %}
+                    <a href="javascript: void(0)"
+                       data-comment-id="{{ replied.id }}"
+                       data-type="dislike">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                {% endif %}
+
+                <span class="dislike-number">
+                    {{ replied.dislike }}
+                </span>
+            </div>
+
+            <div class="">
+                <p>{{ replied.datetime|timezone:"Asia/Taipei"|date:"Y-m-d a h.i.s" }}</p>
+            </div>
+
+            {% if replied.user == user %}
+                <div>
+                    <a class="comment-delete" href="javascript: void(0)" data-comment-id="{{ replied.id }}"
+                       data-type="delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>

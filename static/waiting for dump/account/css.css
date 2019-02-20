@@ -1,0 +1,139 @@
+/*.text-js {*/
+    /*opacity: 0;*/
+    /*color: #aaa;*/
+    /*font-family: 'Raleway';*/
+    /*font-weight: 100;*/
+/*}*/
+
+/*.cursor {*/
+    /*display: block;*/
+    /*position: absolute;*/
+    /*height: 100%;*/
+    /*top: 0;*/
+    /*right: -5px;*/
+    /*width: 2px;*/
+    /*!* Change colour of Cursor Here *!*/
+    /*background-color: #aaa;*/
+    /*z-index: 1;*/
+    /*animation: flash 0.5s none infinite alternate;*/
+/*}*/
+
+/*@keyframes flash{*/
+  /*0%{*/
+    /*opacity: 1;*/
+  /*}*/
+  /*100%{*/
+    /*opacity: 0;*/
+  /*}*/
+/*}*/
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+
+* {
+    margin: 0;
+    padding: 0;
+    boz-sizing: border-box;
+    font-family: "Raleway Open Sans", sans-serif;
+}
+
+body {
+    background: #222;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*.headline {*/
+    /*position: relative;*/
+
+    /*margin: 0 auto;*/
+    /*!*margin: 20px;*!*/
+    /*color: white;*/
+    /*font-size: 3em;*/
+    /*text-align: center;*/
+
+    /*h1 {*/
+        /*letter-spacing: 1.6px;*/
+        /*font-weight: 300;*/
+        /*margin: 0;*/
+    /*}*/
+/*}*/
+
+/*.secondline {*/
+    /*position: absolute;*/
+
+    /*bottom: 35%;*/
+    /*margin: 0 auto;*/
+    /*!*margin: 20px;*!*/
+    /*color: white;*/
+    /*font-size: 1em;*/
+    /*text-align: center;*/
+
+    /*h1{*/
+        /*letter-spacing: 1.6px;*/
+        /*font-weight: 300;*/
+        /*margin: 0;*/
+    /*}*/
+/*}*/
+
+/*.thrline{*/
+    /*position: absolute;*/
+
+    /*bottom: 26%;*/
+    /*margin: 0 auto;*/
+    /*!*margin: 20px;*!*/
+    /*color: white;*/
+    /*font-size: 1em;*/
+    /*text-align: center;*/
+/*}*/
+
+/*.thrline h1{*/
+    /*letter-spacing: 1.6px;*/
+    /*font-weight: 300;*/
+    /*margin: 0;*/
+/*}*/
+
+
+@-webkit-keyframes typing { from { width: 0; } }
+@-webkit-keyframes blink-caret { 50% { border-color: transparent; } }
+
+h1 {
+	font: bold 4em Consolas, Monaco, monospace;
+	border-right: .1em solid #aaa;
+	width: 11ch;
+    color:#aaa;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	-webkit-animation: typing 1s steps(21, end),
+	           blink-caret .5s step-end infinite alternate;
+}
+
+h2 {
+	font: bold 2em Consolas, Monaco, monospace;
+	border-right: .1em solid #aaa;
+	width: 9ch;
+    color: #aaa;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	-webkit-animation: typing 1s steps(21, end),
+	           blink-caret .5s step-end infinite alternate;
+}
+
+a{
+    color: #aaa;
+
+    text-decoration-line: none;
+}
+
+#logo{
+    position: absolute;
+}
+
+#button{
+    position: relative;
+
+    top: 10%;
+}

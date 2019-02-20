@@ -1,0 +1,112 @@
+﻿@import url("global.css");
+
+body {
+    position: relative;
+}
+
+/*body,*/
+html {
+    height: 100%;
+    width: 100%;
+}
+
+#menu {
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+#menu.hideup {
+    top: -4em;
+}
+
+#menu.navbar {
+    background-color: var(--theme) !important;
+    padding: 5px 0;
+    font-size: 1.2em;
+}
+
+#menu .navbar-brand {
+    color: var(--hightfont);
+    margin-left: 1rem;
+}
+
+#menu .nav-link {
+    color: var(--lowfont) !important;
+}
+
+#menu a.nav-link:hover,
+#menu a.nav-link:active {
+    color: var(--hightfont) !important;
+}
+
+#menu .navbar-collapse {
+    margin-left: 15px;
+}
+
+#menu .menu-toggle {
+    position: relative;
+    cursor: pointer;
+    float: right;
+    font-size: 0.875rem;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    height: 35px;
+    width: 35px;
+}
+
+#menu .menu-toggle-grippy {
+    top: 15px;
+}
+
+#menu .menu-toggle-grippy,
+#menu .menu-toggle-grippy:before,
+#menu .menu-toggle-grippy:after {
+    position: absolute;
+    left: 0px;
+
+    background-color: white;
+    content: "";
+
+    height: 5px;
+    width: 35px;
+
+    -webkit-transition: all 0.2s ease-in-out;
+
+    transition: all 0.2s ease-in-out;
+    border-radius: 10px;
+}
+
+#menu .menu-toggle-grippy:before {
+    top: -10px;
+}
+
+#menu .menu-toggle-grippy:after {
+    bottom: -10px;
+}
+
+#menu .xtype > .menu-toggle-grippy {
+    background-color: var(--theme);
+}
+
+#menu .xtype > .menu-toggle-grippy:before {
+    -webkit-transform: translateY(10px) rotate(45deg);
+    transform: translateY(10px) rotate(45deg);
+}
+
+#menu .xtype > .menu-toggle-grippy:after {
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+footer {
+    background-color: var(--theme);
+    padding: 5% 5% 5% 5%;
+    color: var(--hightfont);
+}
+
+.icon {
+    margin: 0 auto;
+
+    max-height: 100px;
+    max-width: 100px;
+}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+    contact
+{% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/account/contact.css" %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container contact-form">
+        <h1>聯絡我們</h1>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <address>國立台中科技大學 資訊管理科</address>
+                <p>Email: bububu@email.com</p>
+                <p>Phone: 789789789</p>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>電子郵件</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>留言</label>
+                    <textarea class="form-control" rows="7"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

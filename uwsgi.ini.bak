@@ -1,0 +1,21 @@
+# Django-related settings
+[uwsgi]
+socket = :8001
+
+# the base directory (full path)
+chdir           = /home/lucy/PycharmProjects/EasyCoding
+
+# Django s wsgi file
+module          = EasyCoding.wsgi
+
+# process-related settings
+# master
+master          = true
+
+# maximum number of worker processes
+processes       = 4
+
+# ... with appropriate permissions - may be needed
+# chmod-socket    = 664
+# clear environment on exit
+vacuum          = true

@@ -1,0 +1,90 @@
+{% extends "course/course.html" %}
+
+{% block tutorial %}
+    {% include "tutorial/tutorial.html" %}
+{% endblock %}
+
+{% block tutorialjs %}
+    <script>
+        let sub_tittle_content = $("#sub-tittle > span");
+
+        let next_step = $("#next-step");
+
+        let step = 0;
+        {% if chapter == 1 %}
+            let script = [
+                "第一課的內容是一步一步帶領你在電腦裡安裝python",
+                "在看完課程內容後就可以到網頁最下方回答填充題進入下一課",
+                "如果答案正確就可以點擊下一課繼續學習囉",
+            ];
+        {% else %}
+            let script = [
+                "第二課的內容是介紹python官方提供的打程式的地方",
+                "在看完課程內容後就可以到網頁最下方回答填充題進入作業",
+                "如果答案正確就可以點擊寫作業前往第一份作業囉"
+            ];
+        {% endif %}
+
+
+        sub_tittle_content.text(script[step]);
+
+        next_step.click(function (e) {
+            if (step < script.length) {
+                step += 1;
+            }
+
+            sub_tittle_content.text(script[step]);
+
+            if (step === 1) {
+                next_step.hide();
+            } else {
+                next_step.show();
+            }
+        });
+
+        $("#menu a").click(function (e) {
+            $(this).attr('href', "javascript:void(0)");
+            alert("教學完再點啦");
+        });
+
+        $("#course-wrapper").css("z-index", 1002);
+
+        let fill_question = $("#fill-question");
+        let have_scroll = false;
+
+        $(window).scroll(function () {
+            if (!have_scroll) {
+
+                let hT = fill_question.offset().top,
+                    hH = fill_question.outerHeight(),
+                    wH = $(window).height(),
+                    wS = $(this).scrollTop();
+
+                if (wS > (hT + hH - wH)) {
+
+                    have_scroll = true;
+                    $("#fill-question .code > input:first-child").focus();
+                    sub_tittle_content.text("請將答案依序填入格子內，填完後便可按下送出鍵送出答案(記得切換輸入法)");
+                    next_step.hide();
+                }
+            }
+        });
+
+        fill_answers_submit.click(function () {
+            answer_send();
+            step = 2;
+            sub_tittle_content.text(script[step]);
+        });
+
+        $("#next-course").click(function () {
+            window.location.href = "{% url "tutorial:course" lesson chapter|add:'1' %}"
+        });
+
+        {% if assessment_pk %}
+            $("#goto-assessment").click(function () {
+                window.location.href = "{% url "tutorial:assessment" assessment_pk %}"
+            });
+        {% endif %}
+    </script>
+{% endblock %}
+

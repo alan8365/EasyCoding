@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Easy Coding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap-4.0.0.css">
+    <link href="css/caw.css" rel="stylesheet">
+    <link href="css/menu.css" rel="stylesheet">
+    <link href="css/wiki.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="Scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
+
+    <!--.js-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap-4.0.0.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="Scrollbar/jquery.mousewheel.min.js"></script>
+    <script src="Scrollbar/jquery.mCustomScrollbar.js"></script>
+</head>
+
+<body>
+
+<!--menu-->
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" herf="#"><img src="img/w3newbie2.png" width="150px"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                style="margin-right: 15px">
+            <div class="menu-toggle">
+                <span class="menu-toggle-grippy"></span>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">個人檔案</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vote.html">投票</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">聯繫</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--contain start-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 bd-sidebar">
+            <form class="bd-search d-flex">
+                <!--search-->
+                <span class="algolia-autocomplete">
+                        <input type="search" class="form-control ds-input" id="search-input" placeholder="搜尋..."
+                               autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list"
+                               aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto"
+                               style="position: relative; vertical-align: top;">
+                        <pre aria-hidden="true" class="ds-pre"></pre>
+                        <span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0">
+                        <div class="ds-dataset-1"></div>
+                        </span>
+                    <div id="search-result">
+                        <div class="search-header">
+                            <h6>特性</h6>
+                        </div>
+                        <p class="search-content">物件導向程式設計: 它將物件視為程式中的基本單元，模組、函式、變數等都是物件，並支援繼承、多重繼承、覆寫等功能，使得軟體較容易維護。</p>
+                    </div>
+                    </span>
+                <button class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" type="button"
+                        data-toggle="collapse" data-target="#bd-docs-nav" aria-controls="bd-docs-nav"
+                        aria-expanded="false" aria-label="Toggle docs navigation">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"
+                         focusable="false">
+                        <title>Menu</title>
+                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10"
+                              d="M4 7h22M4 15h22M4 23h22"></path>
+                    </svg>
+                </button>
+            </form>
+
+            <nav class="content collapse bd-links float" id="bd-docs-nav">
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        介紹
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        1.變數與資料型態
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        2.輸入與輸出格式化
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        3.運算式與運算子
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <div id="headingOne"></div>
+                    <a class="bd-toc-link" data-toggle="collapse" role="button" data-target="#collapseOne"
+                       aria-expanded="false" aria-controls="collapseOne" href="#">
+                        4.容器
+                    </a>
+
+                    <div id="collapseOne" class="collapse">
+
+                        <ul class="nav bd-sidenav" aria-labelledby="headingOne">
+                            <li>
+                                <a href="#">
+                                    4-1 串列
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    4-2 字串
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    4-3 字典
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    4-4 元組
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    4-5 集合
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    4-6 range()
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        5.流程控制
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        6.函式
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        7.例外
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        8.類別
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        9.模組
+                    </a>
+                </div>
+                <div class="bd-toc-item">
+                    <a class="bd-toc-link" href="#">
+                        10.檔案處理
+                    </a>
+                </div>
+            </nav>
+
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9 cbd">
+            <div class="float">
+                <div class="bigtit">
+                    <h1>簡介</h1>
+                </div>
+                <div class="smtit">
+                    <h6>起源</h6>
+                </div>
+                <p class="word">
+                    Python的最初設計者吉多·范羅蘇姆，在1994年正式釋出1.0版，吉多·范羅蘇姆是一位蒙提·派森飛行馬戲團的狂熱愛好者，因此他使用Python作為此程式語言之名，此外Python的中文為蟒蛇，所以Python的圖示是蛇。</p>
+                <div class="smtit">
+                    <h6>特性</h6>
+                </div>
+                <p class="word">物件導向程式設計: 它將物件視為程式中的基本單元，模組、函式、變數等都是物件，並支援繼承、多重繼承、覆寫等功能，使得軟體較容易維護。
+                    簡單性:語句簡潔明確，靠縮排來表示判斷式(if)或迴圈(for、while)等的程式碼區塊。
+                    動態性:指在撰寫程式時可以隨時改變物件的結構與內容，隨時可新增新的物件或刪除已有的物件或是其他變化，動態語言具有很高的靈活性。
+                    函式庫:像print()輸出函式就是函式庫中的函式，我們在寫程式時都在使用函式庫，當我們要寫一些特別的功能時，如數學運算，我們就能引入(import)關於math函示庫來使用它具有的函式，如絕對值、次方等，而Python可用的函式庫類型非常的多，讓我們不需自己寫可直接使用。
+                    可移植性:Python可在許多平台上執行，如Windows、Linux、Mas OS X、IOS、Android、DOS、OS等。
+                    Python的應用非常廣泛，機器人、人工智慧、數學運算、系統軟體、網站設計、遊戲及多媒體、影像等。</p>
+                <table class="tab">
+                    <tr>
+                        <td>True</td>
+                        <td>說明表達式或變數為真</td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>說明表達式或變數為假</td>
+                    </tr>
+                    <tr>
+                        <td>None</td>
+                        <td>說明變數內容為空，進行邏輯判斷時會被視為False</td>
+                    </tr>
+                    <tr>
+                        <td>and</td>
+                        <td>將兩個表達式或變數進行邏輯運算，若都為真返回True，只要一個為假就返回False，意為"和"</td>
+                    </tr>
+                    <tr>
+                        <td>or</td>
+                        <td>將兩個表達式或變數進行邏輯運算，只要其中有一個為真就返回True，沒有一個為真就返回False，意為"或"</td>
+                    </tr>
+                    <tr>
+                        <td>not</td>
+                        <td>以表達式或變數進行邏輯判斷，若其為真則返回False，若其為假則返回True，意為"非"</td>
+                    </tr>
+                    <tr>
+                        <td>assert</td>
+                        <td>判斷變數或條件表達式是否為真(Ture)，若非真會出現錯誤，在要判斷的東西後加上逗號可以輸入錯誤訊息</td>
+                    </tr>
+                </table>
+                <div class="pointul">
+                    補充說明:
+                    <ul>
+                        <li>
+                            == 與 = 的不同：判斷內容是否相同的 == 與指派的 = 是不同的，兩個等於符號是比較運算子，一個等於符號代表指派的動作。
+                        </li>
+                        <li>
+                            == 與 is 的不同：== 與 is 不一樣的地方為 == 是判斷內容，如兩個容器的內容相同，使用 ==
+                            判斷會返回True，可是這兩個容器不是同一個東西，他們只是內容一樣，使用is判斷會返回False。
+                        </li>
+                        <li>
+                            is、 is not、in、not in 在第四章容器-串列時會再次說明。
+                        </li>
+                    </ul>
+                </div>
+                <div class="decimalul">
+                    補充說明:
+                    <ul>
+                        <li>
+                            == 與 = 的不同：判斷內容是否相同的 == 與指派的 = 是不同的，兩個等於符號是比較運算子，一個等於符號代表指派的動作。
+                        </li>
+                        <li>
+                            == 與 is 的不同：== 與 is 不一樣的地方為 == 是判斷內容，如兩個容器的內容相同，使用 ==
+                            判斷會返回True，可是這兩個容器不是同一個東西，他們只是內容一樣，使用is判斷會返回False。
+                        </li>
+                        <li>
+                            is、 is not、in、not in 在第四章容器-串列時會再次說明。
+                        </li>
+                    </ul>
+                </div>
+                <p class="img"><img src="https://i.imgur.com/ZUld1mK.jpg" class="img-fluid" alt="Responsive image"></p>
+                <pre class="part" data-startline="93" data-endline="98"><code class="python hljs"><div class="wrapper"><div
+                        class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-meta">&gt;&gt;&gt; </span><span
+                        class="hljs-number">1</span>+<span class="hljs-number">2</span> <span class="hljs-comment">#計算1+2</span>
+<span class="hljs-number">3</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-number">5</span>+<span class="hljs-number">20</span> <span
+                            class="hljs-comment">#計算5+20</span>
+<span class="hljs-number">25</span>
+</div></div></code></pre>
+                <div class="bigtit">
+                    <h1>簡介</h1>
+                </div>
+                <div class="smtit">
+                    <h6>起源</h6>
+                </div>
+                <p class="word">
+                    Python的最初設計者吉多·范羅蘇姆，在1994年正式釋出1.0版，吉多·范羅蘇姆是一位蒙提·派森飛行馬戲團的狂熱愛好者，因此他使用Python作為此程式語言之名，此外Python的中文為蟒蛇，所以Python的圖示是蛇。</p>
+                <div class="smtit">
+                    <h6>特性</h6>
+                </div>
+                <p class="word">物件導向程式設計: 它將物件視為程式中的基本單元，模組、函式、變數等都是物件，並支援繼承、多重繼承、覆寫等功能，使得軟體較容易維護。
+                    簡單性:語句簡潔明確，靠縮排來表示判斷式(if)或迴圈(for、while)等的程式碼區塊。
+                    動態性:指在撰寫程式時可以隨時改變物件的結構與內容，隨時可新增新的物件或刪除已有的物件或是其他變化，動態語言具有很高的靈活性。
+                    函式庫:像print()輸出函式就是函式庫中的函式，我們在寫程式時都在使用函式庫，當我們要寫一些特別的功能時，如數學運算，我們就能引入(import)關於math函示庫來使用它具有的函式，如絕對值、次方等，而Python可用的函式庫類型非常的多，讓我們不需自己寫可直接使用。
+                    可移植性:Python可在許多平台上執行，如Windows、Linux、Mas OS X、IOS、Android、DOS、OS等。
+                    Python的應用非常廣泛，機器人、人工智慧、數學運算、系統軟體、網站設計、遊戲及多媒體、影像等。</p>
+                <p class="img"><img src="https://i.imgur.com/ZUld1mK.jpg" class="img-fluid" alt="Responsive image"></p>
+                <pre class="part" data-startline="93" data-endline="98"><code class="python hljs"><div class="wrapper"><div
+                        class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-meta">&gt;&gt;&gt; </span><span
+                        class="hljs-number">1</span>+<span class="hljs-number">2</span> <span class="hljs-comment">#計算1+2</span>
+<span class="hljs-number">3</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-number">5</span>+<span class="hljs-number">20</span> <span
+                            class="hljs-comment">#計算5+20</span>
+<span class="hljs-number">25</span>
+</div></div></code></pre>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!--contain end-->
+
+<!--footer-->
+<footer class="container-fluid text-cener">
+    <div class="row">
+        <div class="col-lg-3 col-sm-2 col-1"></div>
+
+        <div class="col-lg-4 col-sm-4 col-5">
+            <h3>關於我們</h3><br>
+            <h4>國立台中科技大學 資訊管理科</h4>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 col-5">
+            <img src="img/p.png" class="icon" width=100>
+        </div>
+    </div>
+</footer>
+
+
+<!--
+<script src="js/menu.js">
+</script>
+-->
+
+<script type='text/javascript'>
+    (function ($) {
+        $(window).load(function () {
+            $("#bd-sidebar").mCustomScrollbar();
+            $(".content").mCustomScrollbar();
+        });
+    })(jQuery);
+
+</script>
+</body>
+
+</html>

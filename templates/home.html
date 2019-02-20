@@ -1,0 +1,491 @@
+<html>
+
+{% load static %}
+{% load assessment_extras %}
+
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+    <link rel="stylesheet" href="{% static "boot/bootstrap-4.0.0.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/menu.css" %}">
+    <link rel="stylesheet" href="{% static "css/home/home.css" %}">
+    <link rel="stylesheet" href="{% static "css/home/reference.css" %}">
+    <link rel="stylesheet" href="{% static "Scrollbar/jquery.mCustomScrollbar.css" %}">
+    <link rel="stylesheet" href="{% static "css/global/tutorial.css" %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+    <script src="{% static "boot/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "boot/bootstrap-4.0.0.js" %}"></script>
+    <script src="{% static "MDB-4.5.9/js/mdb.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mCustomScrollbar.js" %}"></script>
+    <script src="{% static "Scrollbar/jquery.mousewheel.min.js" %}"></script>
+</head>
+
+<body>
+<!--menu-->
+
+{% block taildiv %}
+{% endblock %}
+
+<nav id="menu" class="navbar navbar-expand-md sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url "home" %}">
+            <img src="{% static 'img/bubu.png' %}" width="170px">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#meun-collapse"
+                style="margin-right: 15px">
+            <div class="menu-toggle">
+                <span class="menu-toggle-grippy"></span>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="meun-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "account:profile" %}">個人檔案</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "course:course_for_process" %}">課程</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "assessment:assessment_for_precess" %}">作業</a>
+                </li>
+
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link" href="{% url "account:contact" %}">聯繫</a>#}
+                {#                </li>#}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "account:logout" %}">登出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section id="main" style="position: relative;">
+
+
+    <div class="container bu">
+        <div class="row">
+            <div class="col-12 align-self-start col-lg-6 top-content">
+                <div class="content">
+                    <div class="row justify-content-start">
+                        <div class="col align-self-start">
+                            <div class="title">
+                                <a href="{% url "account:profile" %}">
+                                    <i class="fas fa-address-card"></i>
+                                    個人檔案
+                                </a>
+                                <div class="description" data-description="個人檔案內包含了課程進度、作業進度、成就，以及所獲得的票數統計。">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row post assessment">
+                        <div class="col">
+                            <h3>作業總進度</h3>
+                            <canvas id="doughnutChart" width="308" height="154" class="chartjs-render-monitor"
+                                    style="display: block; width: 308px; height: 154px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 align-self-end col-lg-6" id="course-wrapper">
+                <div class="content">
+                    <div class="row justify-content-start">
+                        <div class="col align-self-start">
+                            <div class="title">
+                                <a>
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    課程
+                                </a>
+                                <div class="description"
+                                     data-description="課程總共8章，每一章各有數節，每個章節需循序完成，已經讀過的課程可重複進行閱讀，想解鎖課程需先完成上一章的作業才可解鎖。"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row no-gutters assessment">
+                        <div class="col">
+                            <div class="out-todolist">
+                                <div class="input-todolist">
+                                    <div class="todolist">
+                                        <ul>
+                                            {% for courses in all_course %}
+                                                <li>
+                                                    <a class="label {% if courses.is_lock or courses.is_done %}done{% endif %}"
+                                                       data-toggle="collapse"
+                                                       href="#collapse-{{ courses.lesson.number }}"
+                                                       role="button" aria-expanded="false"
+                                                       aria-controls="collapse-{{ courses.lesson.number }}">
+                                                        {{ courses.lesson }}
+                                                    </a>
+
+                                                    <div class="actions">
+                                                        {% if courses.is_lock %}
+                                                            <button type="button" title="未解鎖" class="btn-picto">
+                                                                <i aria-hidden="true" class="fas fa-lock"></i>
+                                                            </button>
+                                                        {% elif courses.is_done %}
+                                                            <button type="button" title="完成" class="btn-picto">
+                                                                <i aria-hidden="true" class="fas fa-check"></i>
+                                                            </button>
+                                                        {% endif %}
+                                                    </div>
+                                                </li>
+
+                                                <div class="sub-done collapse"
+                                                     id="collapse-{{ courses.lesson.number }}">
+
+                                                    {% for course in courses.courses %}
+                                                        <li class="done">
+                                                            {% if course.is_lock %}
+                                                                <a href="#" class="label done" role="button"
+                                                                   style="pointer-events: none">{{ course }}</a>
+                                                            {% elif course.is_done %}
+                                                                <a href="{% url domain|add:":course" course.lesson.number course.chapter %}"
+                                                                   class="label done" role="button">{{ course }}</a>
+                                                            {% else %}
+                                                                <a href="{% url domain|add:":course" course.lesson.number course.chapter %}"
+                                                                   class="label" role="button">{{ course }}</a>
+                                                            {% endif %}
+
+                                                            <div class="actions">
+                                                                {% if course.is_lock %}
+                                                                    <button type="button" title="未解鎖" class="btn-picto">
+                                                                        <i aria-hidden="true" class="fas fa-lock"></i>
+                                                                    </button>
+                                                                {% elif course.is_done %}
+                                                                    <button type="button" title="完成" class="btn-picto">
+                                                                        <i aria-hidden="true" class="fas fa-check"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+
+                                                </div>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 align-self-start col-lg-6 top-content">
+                <div class="content">
+                    <div class="row justify-content-start">
+                        <div class="col align-self-start">
+                            <div class="title">
+                                <a href="{% url "wiki:wiki" 1 1 %}">
+                                    <i class="fas fa-folder-open"></i>文件
+                                </a>
+                                <div class="description"
+                                     data-description="文件內包含了課程所需之目錄，提供超連結已便使用者觀看，文件內部提供了使用python所需要的程式碼，如果忘記了可以自行觀看即可。"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row post1">
+                        <div class="col" style="height: 10%">
+                            <input id="wiki-search" type="text" class="input" placeholder="搜尋..." autocomplete="off"
+                                   spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false"
+                                   aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="height: 100%">
+                        </div>
+                    </div>
+
+                    {# TODO keyword css fix #}
+                    <div class="row wiki-search">
+                        <div class="col">
+                            <div class="search">
+                                <div class="none">
+                                    <p>這裡什麼都還沒有 <br>快來搜尋吧!(ゝ∀･)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 align-self-end col-lg-6">
+                <div class="content">
+                    <div class="row no-gutters justify-content-start">
+                        <div class="col align-self-start">
+                            <div class="title">
+                                <a>
+                                    <i class="fas fa-book-reader"></i>
+                                    作業
+                                </a>
+                                <div class="description" data-description="如出現打勾符號，代表該作業已經通過，其餘尚不可做的作業將會上鎖不可進行。"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row no-gutters assessment">
+                        <div class="col">
+                            <div class="out-todolist">
+                                <div class="input-todolist">
+                                    <div class="todolist">
+                                        <ul>
+                                            {# TODO ask nana lock color #}
+                                            {% for assessment_list in assessment_lists %}
+
+                                                <li class="{% if assessment_list.is_lock or assessment_list.is_done %}lock{% endif %}">
+                                                    <a class="label" data-toggle="collapse"
+                                                       href="#hwU{{ assessment_list.lesson }}" role="button"
+                                                       aria-expanded="false"
+                                                       aria-controls="hwU{{ assessment_list.lesson }}">{{ assessment_list.label }}</a>
+
+                                                    <div class="actions">
+                                                        {% if assessment_list.is_lock %}
+                                                            <div class="actions">
+                                                                <button type="button" title="未解鎖" class="btn-picto">
+                                                                    <i aria-hidden="true" class="fas fa-lock"></i>
+                                                                </button>
+                                                            </div>
+                                                        {% elif assessment_list.is_done %}
+
+                                                            <button type="button" title="完成" class="btn-picto">
+                                                                <i aria-hidden="true" class="fas fa-check"></i>
+                                                            </button>
+                                                        {% endif %}
+                                                    </div>
+                                                </li>
+
+                                                <div class="sub-done collapse" id="hwU{{ assessment_list.lesson }}">
+                                                    {% for assessment in assessment_list.assessments %}
+                                                        <li class="done">
+                                                            {% if assessment_list.is_lock %}
+                                                                <a class="hw-title done"
+                                                                   href="javascript: void(0)">
+                                                                    {{ assessment }}
+                                                                </a>
+                                                            {% elif assessment.is_done %}
+                                                                <a class="hw-title done"
+                                                                   href="{% url "assessment:assessment" assessment.id %}">
+                                                                    {{ assessment }}
+                                                                </a>
+                                                            {% else %}
+                                                                <a class="hw-title"
+                                                                   href="{% url "assessment:assessment" assessment.id %}">
+                                                                    {{ assessment }}
+                                                                </a>
+                                                            {% endif %}
+
+                                                            <div class="difficult {% if assessment_list.is_lock or assessment.is_done %}done{% endif %}">
+                                                                {% for _ in assessment.level|my_range %}
+                                                                    <i class="fas fa-star"></i>
+                                                                {% endfor %}
+
+                                                                {% for _ in assessment.level|my_range5 %}
+                                                                    <i class="far fa-star"></i>
+                                                                {% endfor %}
+                                                            </div>
+
+                                                            <div class="actions">
+                                                                {% if assessment_list.is_lock %}
+                                                                    <button type="button" title="未解鎖" class="btn-picto">
+                                                                        <i aria-hidden="true" class="fas fa-lock"></i>
+                                                                    </button>
+                                                                {% elif assessment.is_done %}
+                                                                    <a href="{% url "assessment:vote" assessment.id %}"
+                                                                       type="button" title="完成" class="btn-picto">
+                                                                        <i aria-hidden="true" class="fas fa-check"></i>
+                                                                    </a>
+                                                                {% else %}
+                                                                    <button class="btn-picto"
+                                                                            style="pointer-events: none;">
+                                                                        <i aria-hidden="true" class="fas fa-check"
+                                                                           style="color:#eef5f9;"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer class="container-fluid text-cener">
+    <div class="row">
+        <div class="col-lg-3 col-sm-2 col-1"></div>
+
+        <div class="col-lg-4 col-sm-4 col-5">
+            <h3>關於我們</h3><br>
+            <h4>國立台中科技大學 資訊管理科</h4>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 col-5">
+            <img src="{% static "img/p.png" %}" class="icon" width=100>
+        </div>
+    </div>
+</footer>
+
+{#<script src="{% static 'js/menu.js' %}"></script>#}
+<script>
+    //doughnut
+    let ctxD = document.getElementById("doughnutChart").getContext('2d');
+    let myDoughnutChart = new Chart(ctxD, {
+        type: 'doughnut',
+
+        data: {
+            labels: ["一星", "二星", "三星", "四星", "五星", "未完成"],
+
+            datasets: [{
+                data: [
+                    {% for foo in assessment_level_completed %}
+                        {{ foo }},
+                    {% endfor %}
+                ],
+                backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56", "#4bc0c0", "#36a2eb", "#9d9d9d"],
+                hoverBackgroundColor: ["#ff79bc", "#ffaf60", "#ffe66f", "#a3d1d1", "#84c1ff", "#c9cbcf"]
+            }]
+        },
+
+        options: {
+            responsive: true,
+            legend: {
+                display: false
+            }
+
+        }
+    });
+</script>
+
+<script type='text/javascript'>
+    $(".search").mCustomScrollbar();
+</script>
+
+{% csrf_token %}
+<script>
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": '{{ csrf_token }}'
+        }
+    });
+</script>
+
+<script>
+    var a;
+
+    $("#wiki-search").keypress(function (e) {
+        if (e.which === 13) {
+
+            let mCSB_1_container = $("#mCSB_1_container");
+
+            mCSB_1_container.html("");
+
+            let search = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    search: search
+                },
+                url: "{% url 'home' %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+
+                    a = result;
+
+                    let title = result["search_title_result"];
+                    let content = result["search_content_result"];
+
+                    if (title.length === 0 && content.length === 0) {
+
+                        let none = $("<div>");
+                        let p = $("<p>");
+
+                        none.addClass("none");
+                        p.html("什麼都沒搜到 <br>再搜一次吧!(ゝ∀･)");
+                        p.appendTo(none);
+                        none.appendTo(mCSB_1_container);
+
+                    } else {
+
+                        title.forEach(function (e) {
+                            console.log(e);
+
+                            let tag_div = $("<div>");
+
+                            tag_div.addClass("col");
+
+                            let tag_a = $("<a>");
+                            let link = "{% url "wiki:wiki" 111 222 %}".replace("111", e[0]).replace("222", e[1]);
+
+                            tag_a.attr("href", link);
+                            tag_a.html(e[2]);
+
+                            tag_a.appendTo(tag_div);
+                            tag_div.appendTo(mCSB_1_container);
+                        });
+
+                        content.forEach(function (e) {
+                            let tag_col = $("<div>");
+
+                            tag_col.addClass("col");
+
+                            let tag_a = $("<a>");
+                            let link = "{% url "wiki:wiki" 111 222 %}".replace("111", e[0]).replace("222", e[1]);
+
+                            tag_a.attr("href", link);
+                            tag_a.html(e[2]);
+
+                            tag_a.appendTo(tag_col);
+                            tag_col.appendTo(mCSB_1_container);
+
+                            let tag_caption = $("<div>");
+
+                            tag_caption.addClass("caption");
+
+                            let tag_span = $("<span>");
+
+                            tag_span.html(e[3]);
+
+                            tag_span.appendTo(tag_caption);
+                            tag_caption.appendTo(mCSB_1_container);
+
+                        });
+                    }
+                },
+                error: function () {
+                    alert(888);
+                }
+            });
+        }
+    })
+
+</script>
+
+{% block tailjs %}
+{% endblock %}
+
+</body>
+
+</html>

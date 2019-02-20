@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ ass }}
+{% endblock %}
+
+{% load static %}
+{% load assessment_extras %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="{% static "css/assessment/assessment.css" %}">
+    <link rel="stylesheet" href="{% static "css/assessment/ed.css" %}">
+    <link rel="stylesheet" href="{% static "css/course/caw.css" %}">
+{% endblock %}
+
+{% block jslink %}
+    <script src="{% static "src-noconflict/ext-language_tools.js" %}"></script>
+    <script src="{% static "src-noconflict/ace.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <!--contain start-->
+    <div class="container-fluid" style="margin: 15px 0">
+        <div id="tab1" class="row">
+            <div id="assessment-wrapper" class="col-4">
+                <span id="topic">1</span>
+                <span id="output">2</span>
+                <div id="tab">
+                    <!-- 頁籤按鈕 -->
+                    <ul>
+                        <li>
+                            <a href="#topic">
+                                <h6>題目</h6>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#output">
+                                <h6>輸出</h6>
+                            </a>
+                        </li>
+
+                        <a id="a-vote" href="{% url "assessment:vote" pk %}">
+                            <button type="button" id="btn-vote" class="btn btn-link">
+                                投票
+                            </button>
+                        </a>
+                    </ul>
+
+                    <!-- 頁籤的內容區塊 -->
+                    <div class="topic-content">
+                        <div class="inner-container">
+                            {# TODO need fix #}
+                            <div class="content">
+                                {% for content in all_content %}
+                                    {% if content.isTitle %}
+                                        <h5>
+                                            {{ content.content }}
+                                        </h5>
+                                    {% elif content.isSubTitle %}
+                                        <h6>
+                                            {{ content.content }}
+                                        </h6>
+                                    {% elif content.isText %}
+                                        <p class="word">
+                                            {{ content.content }}
+                                        </p>
+                                    {% elif content.isCode %}
+                                        <pre class="part">{{ content.content|safe }}</pre>
+                                    {% elif content.isImage %}
+                                        <img src="{% static content.content %}">
+                                    {% elif content.isLink %}
+                                        <p class="wikilink">{{ content.content|safe }}</p>
+                                    {% elif content.isTable %}
+                                        <table class="tab">
+                                            {{ content.content|safe }}
+                                        </table>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output-content">
+                        <div class="inner-container">
+                            <div class="content">
+                                <div id="exe-output" style="padding: 10px 0px">
+                                    <div class="none">
+                                        <p>這裡什麼都還沒有 <br>快來執行吧!(ゝ∀･)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-run" class="btn btn-outline-dark">執行</button>
+                    <button type="button" id="btn-sendout" class="btn btn-outline-dark">送出</button>
+
+                </div>
+            </div>
+
+            {# @formatter:off #}
+            <div id="code-wrapper" class="col-8"><div id="editor"><div id="editorDiv">{{ org_code }}</div></div></div>
+            {# @formatter:on #}
+        </div>
+
+    </div>
+    <!--contain end-->
+{% endblock %}
+
+{% block tailjslink %}
+    {% csrf_token %}
+    <script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+
+    <script>
+        ace.require("ace/ext/language_tools");
+        //建立輸入框
+        let editor = ace.edit("editor");
+        //輸入代碼提示
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setFontSize(20);
+        //選擇語言
+        editor.getSession().setMode("ace/mode/python");
+        //设置初始内容
+        editor.setValue(`{{ code|backslash|safe }}`);
+
+        editor.setTheme("ace/theme/ihatewhite");
+
+        editor.on('change', function () {
+            $("#btn-sendout").hide();
+
+            $("#btn-vote").hide();
+        });
+
+        {#execute#}
+        var a;
+        $("#btn-run").click(function () {
+            {#TODO runtime display#}
+            $("#tab > ul > li:nth-child(2) > a")[0].click();
+
+            let code = editor.getValue();
+
+            $.ajax({
+                type: "POST",
+                data: {code: code},
+                url: "{% url 'assessment:assessment' pk %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+
+                    if (result.is_answer_right) {
+                        $("#btn-sendout").show();
+
+                        $("#btn-vote").show();
+                    } else {
+                        $("#btn-sendout").hide();
+
+                        $("#btn-vote").hide();
+                    }
+
+                    let exe_output = $("#exe-output");
+                    let output = result.output;
+
+                    exe_output.html("");
+                    a = output;
+
+                    if (typeof(output) === "string") {
+                        exe_output.html(output);
+                    } else {
+                        output.forEach(function (e) {
+                            let wrapper = $("<div>");
+
+                            if (e["is_answer_right"]) {
+                                wrapper.addClass("correct");
+
+                                let answer_right = $("<green>").text("正確");
+                                let temp = $("<div>");
+
+                                temp.append(answer_right);
+                                wrapper.append(temp);
+                            } else {
+                                wrapper.addClass("wrong");
+
+                                let answer_right = $("<red>").text("錯誤");
+                                let temp = $("<div>");
+
+                                temp.append(answer_right);
+                                wrapper.append(temp);
+                            }
+
+                            let temp = $("<div>").text("輸入:");
+                            let input = $("<pre>").text(e["input"]);
+
+                            temp.append(input);
+                            wrapper.append(temp);
+
+                            temp = $("<div>").text("輸出:");
+                            let output = $("<pre>").html(e["output"]);
+
+                            temp.append(output);
+                            wrapper.append(temp);
+
+                            if (!e["is_answer_right"]) {
+                                let realans = $("<div>").addClass("realans");
+                                temp = $("<div>");
+                                let green = $("<green>").text("正確輸出:");
+                                let answer = $("<pre>").html(e["answer"]);
+
+                                realans.append(temp);
+                                temp.append(green);
+                                green.append(answer);
+                                wrapper.append(realans);
+                            }
+
+                            wrapper.appendTo(exe_output);
+                        });
+
+                    }
+
+                },
+                error: function () {
+                    alert("執行時間過久");
+                }
+            });
+        });
+
+        {#submit#}
+        $("#btn-sendout").click(function () {
+            let code = editor.getValue();
+
+            $.ajax({
+                type: "POST",
+                data: {code: code, submit: "submit"},
+                url: "{% url 'assessment:assessment' pk %}",
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+                    $("#btn-vote").show();
+
+                    alert("成功送出");
+
+                    window.location.href = "{% url "assessment:vote" pk %}"
+                },
+                error: function () {
+                    console.log(888);
+                }
+            });
+
+        });
+
+        /*bububu*/
+    </script>
+{% endblock %}

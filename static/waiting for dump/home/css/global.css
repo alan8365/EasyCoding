@@ -1,0 +1,67 @@
+:root {
+    --theme: rgb(48, 57, 99);
+    --height: rgb(172, 176, 193);
+    --low: rgb(89, 97, 130);
+    --font: rgb(255, 255, 255);
+}
+
+body {
+    font-family: Roboto, 'Segoe UI', Arial, 'Microsoft Jhenghei', sans-serif;
+
+    background-color: var(--low);
+
+    color: var(--font);
+
+    /*    overflow: hidden;*/
+    overflow: auto;
+
+    height: 100vh;
+}
+
+.bar {
+    height: 2em;
+    width: 100%;
+
+    text-align: center;
+
+    z-index: 999;
+
+    background-color: var(--theme);
+
+    font-size: 30px;
+
+    position: fixed;
+
+    left: 15px;
+}
+
+#wrapper {
+    position: relative;
+
+    left: 0;
+
+    padding-top: 2em;
+}
+
+.footer {
+    position: relative;
+
+
+    bottom: 0;
+
+    background-color: rgba(0, 0, 0, 0);
+
+    text-align: center;
+
+}
+
+svg {
+    display: block;
+    height: auto;
+    margin: 0 auto 4px;
+    width: 40%;
+}
+
+a, a:hover{
+    color: snow;
+}
